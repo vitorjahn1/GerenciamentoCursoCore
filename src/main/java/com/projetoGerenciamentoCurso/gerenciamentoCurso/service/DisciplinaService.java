@@ -1,5 +1,7 @@
 package com.projetoGerenciamentoCurso.gerenciamentoCurso.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
+@Transactional
 public class DisciplinaService {
 
 	private final RabbitTemplate rabbitTemplate;
