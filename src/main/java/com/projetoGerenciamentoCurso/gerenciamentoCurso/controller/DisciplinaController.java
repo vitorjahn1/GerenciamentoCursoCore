@@ -15,15 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.DisciplinaDto;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Disciplina;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.DisciplinaService;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.repositoryServices.DisciplinaRepositoryService;
 
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = DisciplinaController.PATH)
 public class DisciplinaController {
-	@Autowired
-	private DisciplinaRepositoryService disciplinaRepositoryService;
+
 	
 	@Autowired
 	private DisciplinaService disciplinaService;
@@ -34,9 +32,9 @@ public class DisciplinaController {
 	@Transactional
 	public ResponseEntity<Disciplina> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
 		
-		Disciplina disciplinaModel = disciplinaRepositoryService.criarModelDisciplina(disciplina);
+		Disciplina disciplinaModel = disciplinaService.criarDisciplina(disciplina);
 		disciplinaService.criarDisciplina(disciplina);
-		disciplinaRepositoryService.repositoryCriarDisciplina(disciplinaModel);
+		
 		return ResponseEntity.ok(disciplinaModel);
 		
 	}
@@ -44,34 +42,29 @@ public class DisciplinaController {
 	@Transactional
 	public ResponseEntity<Disciplina> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
 		
-		Disciplina disciplinaAtualiza = disciplinaRepositoryService.repositoryEncontrarDisciplina(disciplina.getIdDisciplina());		
-		if(disciplinaAtualiza == null) {
+		Disciplina disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);		
+		if(disciplinaAtualiza != null) {
+			
+			return ResponseEntity.ok(disciplinaAtualiza);
+		}else {
 			
 			return ResponseEntity.notFound().build();
 		}
 		
-		disciplinaAtualiza.setProfessores(disciplina.getProfessores());
-		disciplinaAtualiza.setDescricao(disciplina.getDescricao());
-		disciplinaAtualiza.setCargaHoraria(disciplina.getCargaHoraria());
-		disciplinaAtualiza.setSigla(disciplina.getSigla());
-		disciplinaAtualiza.setTurmas(disciplina.getTurmas());
-		disciplinaRepositoryService.repositoryAtualizarDisciplina(disciplinaAtualiza);
-		disciplinaService.atualizaDisciplina(disciplina);
-		return ResponseEntity.ok(disciplinaAtualiza);
+		
 	}
 	
 	@DeleteMapping
 	public  ResponseEntity<Disciplina> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
 		
-		Disciplina deletarDisciplina = disciplinaRepositoryService.criarModelDisciplina(disciplina);
-		if(deletarDisciplina == null) {
+		Disciplina deletarDisciplina = disciplinaService.deletarDisciplina(disciplina);
+		if(deletarDisciplina != null) {
 			
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(deletarDisciplina);
 			
 		}
+		return ResponseEntity.notFound().build();
 		
-		disciplinaRepositoryService.repositoryDeletarDisciplina(deletarDisciplina);
-		disciplinaService.deletarDisciplina(disciplina);
-		return ResponseEntity.ok(deletarDisciplina);
 	}
+	
 }

@@ -15,67 +15,51 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.TurmaDto;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Turma;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.TurmaService;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.repositoryServices.TurmaRepositoryService;
-
 
 @CrossOrigin
 @RestController
 @RequestMapping(path = TurmaController.PATH)
 public class TurmaController {
-	
-	@Autowired
-	private TurmaRepositoryService turmaRepositoryService;
-	
+
 	@Autowired
 	private TurmaService turmaService;
-	
+
 	public static final String PATH = "/turma";
-	
 
 	@PostMapping
 	public ResponseEntity<Turma> criarTurma(@RequestBody TurmaDto turma) {
-		Turma turmaModel = turmaRepositoryService.criarModelTurma(turma);
-		turmaRepositoryService.repositoryCriarTurma(turmaModel);
-		turmaService.criarTurma(turma);
+		Turma turmaModel = turmaService.criarTurma(turma);
+
 		return ResponseEntity.ok(turmaModel);
 	}
-	
+
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Turma> atualizarTurma(@RequestBody TurmaDto turma) {
-		Turma atualizaTurma = turmaRepositoryService.repositoryEncontrarTurma(turma.getIdTurma());
-		
-		if(atualizaTurma == null) {
-			
+		Turma atualizaTurma = turmaService.atualizaTurma(turma);
+		if (atualizaTurma != null) {
+
+			return ResponseEntity.ok(atualizaTurma);
+		} else {
+
 			return ResponseEntity.notFound().build();
 		}
-		
-		atualizaTurma.setAlunos(turma.getAlunos());
-		atualizaTurma.setAnoLetivo(turma.getAnoLetivo());
-		atualizaTurma.setDescricao(turma.getDescricao());
-		atualizaTurma.setNumeroVagas(turma.getNumeroVagas());
-		atualizaTurma.setPeriodoLetivo(turma.getPeriodoLetivo());
-		
-		turmaService.atualizaTurma(turma);
-		
-		return ResponseEntity.ok(atualizaTurma);
+
 	}
+
 	@DeleteMapping
 	@Transactional
 	public ResponseEntity<Turma> deletarTurma(@RequestBody TurmaDto turma) {
-		
-		
-		if(turma == null) {
-			
+
+		Turma deletarTurma = turmaService.deletarTurma(turma);
+		if (deletarTurma != null) {
+			return ResponseEntity.ok(deletarTurma);
+
+		} else {
+
 			return ResponseEntity.notFound().build();
 		}
-		
-		
-		Turma deletarTurma = turmaRepositoryService.criarModelTurma(turma);
-		turmaRepositoryService.repositoryDeletarTurma(deletarTurma);
-		turmaService.deletarTurma(turma);
-		return ResponseEntity.ok(deletarTurma);
-		
+
 	}
-	
+
 }

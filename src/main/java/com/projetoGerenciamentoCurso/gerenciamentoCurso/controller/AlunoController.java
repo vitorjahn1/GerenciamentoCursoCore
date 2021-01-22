@@ -14,16 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.AlunoDto;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Aluno;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.AlunoService;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.repositoryServices.AlunoRepositoryService;
-
-
 
 @RestController
 @RequestMapping(path = AlunoController.PATH)
 public class AlunoController {
-
-	@Autowired
-	private AlunoRepositoryService alunoRepositoryService;
 
 	public static final String PATH = "/aluno";
 
@@ -33,53 +27,40 @@ public class AlunoController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Aluno> salvarAluno(@RequestBody AlunoDto aluno) {
-		Aluno criaAluno = alunoRepositoryService.criarAlunoModel(aluno);
-		
-		alunoRepositoryService.repositoryCriarAluno(criaAluno);
-		
-		alunoService.retornaAluno(aluno);
-		return ResponseEntity.ok(criaAluno);
+		Aluno alunoModel = alunoService.criarAlunoModel(aluno);
+
+		return ResponseEntity.ok(alunoModel);
 	}
 
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Aluno> atualizarAluno(@RequestBody AlunoDto atualizaAluno) {
-		Aluno aluno = alunoRepositoryService.repositoryEncontrarAluno(atualizaAluno.getMatricula());
+		Aluno aluno = alunoService.atualizarAluno(atualizaAluno);
 		if (aluno != null) {
+			return ResponseEntity.ok(aluno);
 
-			aluno.setCpf(atualizaAluno.getCpf());
-			aluno.setEmail(atualizaAluno.getEmail());
-			aluno.setFormaIngresso(atualizaAluno.getFormaIngresso());
-			aluno.setNome(atualizaAluno.getNome());
-			aluno.setTurma(atualizaAluno.getTurma());
-			alunoService.atualizarAluno(atualizaAluno);
-			alunoRepositoryService.repositoryCriarAluno(aluno);
 		} else {
 			return ResponseEntity.notFound().build();
 
 		}
-
-		return ResponseEntity.ok(aluno);
 
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Aluno> deletarAluno(@RequestBody AlunoDto aluno) {
 
-		Aluno deletarALuno = alunoRepositoryService.criarAlunoModel(aluno);
+		Aluno deletarALuno = alunoService.deletarAluno(aluno);
 		if (deletarALuno != null) {
+
 			
-			alunoRepositoryService.repositoryDeletarAluno(deletarALuno);
-			
-			alunoService.deletarAluno(aluno);
-			
+			return ResponseEntity.ok(deletarALuno);
+
 		} else {
 
 			return ResponseEntity.notFound().build();
 
 		}
 
-		return ResponseEntity.ok(deletarALuno);
 	}
 
 }

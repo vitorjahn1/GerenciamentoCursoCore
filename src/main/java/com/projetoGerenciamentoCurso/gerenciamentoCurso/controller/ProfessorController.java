@@ -14,50 +14,41 @@ import org.springframework.web.bind.annotation.RestController;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.ProfessorDto;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Professor;
 import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.ProfessorService;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.repositoryServices.ProfessorRepositoryService;
 
 
 @RestController
 @RequestMapping(path = ProfessorController.PATH)
 public class ProfessorController {
 
-	@Autowired
-	private ProfessorRepositoryService professorRepositoryService;
+	
 	
 	@Autowired
 	private ProfessorService professorService;
 	
 	public static final String PATH = "/professor";
 	
-
 	
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Professor> salvaProfessor(@RequestBody ProfessorDto professor) {
-		Professor professorModel = professorRepositoryService.criarModelProfessor(professor);
-		professorRepositoryService.repositoryCriarProfessor(professorModel);
-		professorService.criarProfessor(professor);
+		Professor professorModel = professorService.criarProfessor(professor);
+		
 		return ResponseEntity.ok(professorModel);
 	}
 	
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Professor> atualizaProfessor(@RequestBody ProfessorDto professor) {
-		Professor atualizaProfessor = professorRepositoryService.repositoryEncontrarProfessor(professor.getIdPessoa());
-		if(atualizaProfessor == null) {
+		Professor atualizaProfessor = professorService.atuzalizarProfessor(professor);
+		if(atualizaProfessor != null) {
+			
+			
+			return ResponseEntity.ok(atualizaProfessor);
+			
+		}else {
 			
 			return ResponseEntity.notFound().build();
 		}
-		
-		atualizaProfessor.setCpf(professor.getCpf());
-		atualizaProfessor.setEmail(professor.getEmail());
-		atualizaProfessor.setNome(professor.getNome());
-		atualizaProfessor.setTitulacao(professor.getTitulacao());
-		
-		professorService.atualizaProfessor(professor);
-		
-		
-		return ResponseEntity.ok(atualizaProfessor);
 		
 	}
 	
@@ -65,12 +56,16 @@ public class ProfessorController {
 	@Transactional
 	public ResponseEntity<Professor> deletarProfessor(@RequestBody ProfessorDto professor) {
 		
-		Professor deletarProfessor = professorRepositoryService.criarModelProfessor(professor);
+		Professor deletarProfessor = professorService.deletarProfessor(professor);
 		
-		professorRepositoryService.repositoryDeletarProfessor(deletarProfessor);
+		if(deletarProfessor != null) {
+			
+			return ResponseEntity.ok(deletarProfessor);
+		}else {
+			
+			return ResponseEntity.notFound().build();
+		}
 		
-		professorService.deletarProfessor(professor);
 		
-		return ResponseEntity.ok(deletarProfessor);
 	}
 }
