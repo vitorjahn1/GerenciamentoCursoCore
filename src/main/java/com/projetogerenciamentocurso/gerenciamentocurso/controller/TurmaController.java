@@ -1,4 +1,4 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.controller;
+package com.projetogerenciamentocurso.gerenciamentocurso.controller;
 
 import javax.transaction.Transactional;
 
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.TurmaDto;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Turma;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.TurmaService;
+import com.projetogerenciamentocurso.gerenciamentocurso.dto.TurmaDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
+import com.projetogerenciamentocurso.gerenciamentocurso.service.TurmaService;
 
 @CrossOrigin
 @RestController

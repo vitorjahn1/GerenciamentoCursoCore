@@ -1,4 +1,6 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.models;
+package com.projetogerenciamentocurso.gerenciamentocurso.models;
+
+
 
 import java.io.Serializable;
 

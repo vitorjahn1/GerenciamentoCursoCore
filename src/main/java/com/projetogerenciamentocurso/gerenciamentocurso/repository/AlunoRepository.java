@@ -1,8 +1,8 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.repository;
+package com.projetogerenciamentocurso.gerenciamentocurso.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Aluno;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
 
 
 

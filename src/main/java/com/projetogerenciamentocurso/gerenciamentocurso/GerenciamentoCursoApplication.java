@@ -1,4 +1,4 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso;
+package com.projetogerenciamentocurso.gerenciamentocurso;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

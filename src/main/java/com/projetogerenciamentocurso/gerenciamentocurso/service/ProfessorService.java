@@ -1,13 +1,13 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.service;
+package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.GerenciamentoCursoApplication;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.ProfessorDto;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Professor;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.repository.ProfessorRepository;
+import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
+import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
 
 import lombok.AllArgsConstructor;
 

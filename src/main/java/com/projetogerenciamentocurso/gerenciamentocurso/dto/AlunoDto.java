@@ -1,10 +1,10 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.dto;
+package com.projetogerenciamentocurso.gerenciamentocurso.dto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Pessoa;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Turma;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Pessoa;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

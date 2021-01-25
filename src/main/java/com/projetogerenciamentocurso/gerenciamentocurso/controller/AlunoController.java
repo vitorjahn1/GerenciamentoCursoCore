@@ -1,4 +1,4 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.controller;
+package com.projetogerenciamentocurso.gerenciamentocurso.controller;
 
 import javax.transaction.Transactional;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.AlunoDto;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Aluno;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.service.AlunoService;
+import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
+import com.projetogerenciamentocurso.gerenciamentocurso.service.AlunoService;
 
 @RestController
 @RequestMapping(path = AlunoController.PATH)

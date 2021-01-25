@@ -1,4 +1,4 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.service;
+package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
@@ -6,10 +6,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.GerenciamentoCursoApplication;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.dto.AlunoDto;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Aluno;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.repository.AlunoRepository;
+import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
+import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
 
 import lombok.AllArgsConstructor;
 

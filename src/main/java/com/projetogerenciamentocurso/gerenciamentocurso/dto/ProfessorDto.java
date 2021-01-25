@@ -1,7 +1,7 @@
-package com.projetoGerenciamentoCurso.gerenciamentoCurso.dto;
+package com.projetogerenciamentocurso.gerenciamentocurso.dto;
 
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Disciplina;
-import com.projetoGerenciamentoCurso.gerenciamentoCurso.models.Pessoa;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Pessoa;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
