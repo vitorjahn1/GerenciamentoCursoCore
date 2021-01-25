@@ -16,55 +16,53 @@ import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.DisciplinaService;
 
-
 @CrossOrigin
 @RestController
 @RequestMapping(path = DisciplinaController.PATH)
 public class DisciplinaController {
 
-	
 	@Autowired
 	private DisciplinaService disciplinaService;
-	
+
 	public static final String PATH = "/disciplina";
-	
+
 	@PostMapping
 	@Transactional
 	public ResponseEntity<Disciplina> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
-		
+
 		Disciplina disciplinaModel = disciplinaService.criarDisciplina(disciplina);
 		disciplinaService.criarDisciplina(disciplina);
-		
+
 		return ResponseEntity.ok(disciplinaModel);
-		
+
 	}
+
 	@PutMapping
 	@Transactional
 	public ResponseEntity<Disciplina> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
-		
-		Disciplina disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);		
-		if(disciplinaAtualiza != null) {
-			
+
+		Disciplina disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);
+		if (disciplinaAtualiza != null) {
+
 			return ResponseEntity.ok(disciplinaAtualiza);
-		}else {
-			
+		} else {
+
 			return ResponseEntity.notFound().build();
 		}
-		
-		
+
 	}
-	
+
 	@DeleteMapping
-	public  ResponseEntity<Disciplina> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
-		
+	public ResponseEntity<Disciplina> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
+
 		Disciplina deletarDisciplina = disciplinaService.deletarDisciplina(disciplina);
-		if(deletarDisciplina != null) {
-			
+		if (deletarDisciplina != null) {
+
 			return ResponseEntity.ok(deletarDisciplina);
-			
+
 		}
 		return ResponseEntity.notFound().build();
-		
+
 	}
-	
+
 }
