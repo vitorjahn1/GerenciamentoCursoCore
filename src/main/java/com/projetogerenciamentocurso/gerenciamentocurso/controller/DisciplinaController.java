@@ -27,7 +27,6 @@ public class DisciplinaController {
 	public static final String PATH = "/disciplina";
 
 	@PostMapping
-	@Transactional
 	public ResponseEntity<Disciplina> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
 
 		Disciplina disciplinaModel = disciplinaService.criarDisciplina(disciplina);
@@ -38,7 +37,6 @@ public class DisciplinaController {
 	}
 
 	@PutMapping
-	@Transactional
 	public ResponseEntity<Disciplina> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
 
 		Disciplina disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);

@@ -33,7 +33,6 @@ public class AlunoController {
 	}
 
 	@PutMapping
-	@Transactional
 	public ResponseEntity<Aluno> atualizarAluno(@RequestBody AlunoDto atualizaAluno) {
 		Aluno aluno = alunoService.atualizarAluno(atualizaAluno);
 		if (aluno != null) {

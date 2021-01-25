@@ -34,7 +34,6 @@ public class TurmaController {
 	}
 
 	@PutMapping
-	@Transactional
 	public ResponseEntity<Turma> atualizarTurma(@RequestBody TurmaDto turma) {
 		Turma atualizaTurma = turmaService.atualizaTurma(turma);
 		if (atualizaTurma != null) {
@@ -48,7 +47,6 @@ public class TurmaController {
 	}
 
 	@DeleteMapping
-	@Transactional
 	public ResponseEntity<Turma> deletarTurma(@RequestBody TurmaDto turma) {
 
 		Turma deletarTurma = turmaService.deletarTurma(turma);

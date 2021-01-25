@@ -29,7 +29,6 @@ public class ProfessorController {
 	
 	
 	@PostMapping
-	@Transactional
 	public ResponseEntity<Professor> salvaProfessor(@RequestBody ProfessorDto professor) {
 		Professor professorModel = professorService.criarProfessor(professor);
 		
@@ -37,7 +36,6 @@ public class ProfessorController {
 	}
 	
 	@PutMapping
-	@Transactional
 	public ResponseEntity<Professor> atualizaProfessor(@RequestBody ProfessorDto professor) {
 		Professor atualizaProfessor = professorService.atuzalizarProfessor(professor);
 		if(atualizaProfessor != null) {
@@ -53,7 +51,6 @@ public class ProfessorController {
 	}
 	
 	@DeleteMapping
-	@Transactional
 	public ResponseEntity<Professor> deletarProfessor(@RequestBody ProfessorDto professor) {
 		
 		Professor deletarProfessor = professorService.deletarProfessor(professor);
