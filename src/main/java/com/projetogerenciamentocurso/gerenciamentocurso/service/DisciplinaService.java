@@ -1,8 +1,10 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
@@ -11,18 +13,19 @@ import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRep
 
 import lombok.AllArgsConstructor;
 
-@Component
+@Service
 @AllArgsConstructor
+@Transactional
 public class DisciplinaService {
 
-	private final RabbitTemplate rabbitTemplate;
+	private final RabbitTemplate publisher;
 
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
 
 	public Disciplina criarDisciplina(DisciplinaDto disciplina) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
 		
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);
@@ -34,7 +37,7 @@ public class DisciplinaService {
 
 	public Disciplina atualizarDisciplina(DisciplinaDto disciplina) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
 
 		Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
@@ -54,7 +57,7 @@ public class DisciplinaService {
 
 	public Disciplina deletarDisciplina(DisciplinaDto disciplina) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_DELETAR, disciplina);
 
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);

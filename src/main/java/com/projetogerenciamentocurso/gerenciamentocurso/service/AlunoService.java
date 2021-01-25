@@ -18,14 +18,14 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class AlunoService {
 
-	private final RabbitTemplate rabbitTemplate;
+	private final RabbitTemplate publisher;
 	
 	@Autowired
 	private AlunoRepository alunoRepository;
 	
 	public Aluno retornaAluno(AlunoDto aluno) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY, aluno);
 		
 		Aluno alunoModel = alunoRepository.save(criarAlunoModel(aluno));
@@ -36,7 +36,7 @@ public class AlunoService {
 
 	public Aluno deletarAluno(AlunoDto aluno) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO_DELETAR, aluno);
 		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
@@ -50,7 +50,7 @@ public class AlunoService {
 	
 	public Aluno atualizarAluno(AlunoDto aluno) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO, aluno);
 		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());

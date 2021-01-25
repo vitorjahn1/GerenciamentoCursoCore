@@ -1,8 +1,5 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.controller;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,18 +12,18 @@ import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.ProfessorService;
 
+import lombok.AllArgsConstructor;
+
 
 @RestController
 @RequestMapping(path = ProfessorController.PATH)
+@AllArgsConstructor
 public class ProfessorController {
-
 	
 	
-	@Autowired
-	private ProfessorService professorService;
+	private final ProfessorService professorService;
 	
 	public static final String PATH = "/professor";
-	
 	
 	@PostMapping
 	public ResponseEntity<Professor> salvaProfessor(@RequestBody ProfessorDto professor) {
@@ -39,7 +36,6 @@ public class ProfessorController {
 	public ResponseEntity<Professor> atualizaProfessor(@RequestBody ProfessorDto professor) {
 		Professor atualizaProfessor = professorService.atuzalizarProfessor(professor);
 		if(atualizaProfessor != null) {
-			
 			
 			return ResponseEntity.ok(atualizaProfessor);
 			
@@ -62,7 +58,6 @@ public class ProfessorController {
 			
 			return ResponseEntity.notFound().build();
 		}
-		
 		
 	}
 }

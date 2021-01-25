@@ -1,5 +1,7 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +15,17 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ProfessorService {
 
-	private final RabbitTemplate rabbitTemplate;
+	private final RabbitTemplate publisher;
 
 	@Autowired
 	private ProfessorRepository professorRepository;
 	
 	public Professor criarProfessor(ProfessorDto professor) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
 		
 		Professor professorModel = criarModelProfessor(professor);
@@ -35,7 +38,7 @@ public class ProfessorService {
 
 	public Professor atuzalizarProfessor(ProfessorDto professor) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
 		
 		Professor atualizaProfessor = professorRepository.getOne(professor.getIdPessoa());
@@ -54,7 +57,7 @@ public class ProfessorService {
 
 	public Professor deletarProfessor(ProfessorDto professor) {
 
-		rabbitTemplate.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
 		
 		Professor professorModel = criarModelProfessor(professor);

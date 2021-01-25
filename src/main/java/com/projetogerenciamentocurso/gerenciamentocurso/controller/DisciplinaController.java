@@ -1,8 +1,5 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.controller;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,13 +13,16 @@ import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.DisciplinaService;
 
+import lombok.AllArgsConstructor;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path = DisciplinaController.PATH)
+@AllArgsConstructor
 public class DisciplinaController {
 
-	@Autowired
-	private DisciplinaService disciplinaService;
+	
+	private final DisciplinaService disciplinaService;
 
 	public static final String PATH = "/disciplina";
 
