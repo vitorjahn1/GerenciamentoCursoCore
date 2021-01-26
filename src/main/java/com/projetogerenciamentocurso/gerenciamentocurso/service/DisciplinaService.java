@@ -2,12 +2,12 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
 
@@ -18,14 +18,15 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class DisciplinaService {
 
-	private final RabbitTemplate publisher;
+	@Autowired
+	private Publisher publisher;
 
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
 
 	public Disciplina criarDisciplina(DisciplinaDto disciplina) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
 		
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);
@@ -37,7 +38,7 @@ public class DisciplinaService {
 
 	public Disciplina atualizarDisciplina(DisciplinaDto disciplina) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
 
 		Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
@@ -57,7 +58,7 @@ public class DisciplinaService {
 
 	public Disciplina deletarDisciplina(DisciplinaDto disciplina) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_DELETAR, disciplina);
 
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);

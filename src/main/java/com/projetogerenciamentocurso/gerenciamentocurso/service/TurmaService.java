@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.TurmaDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.TurmaRepository;
 
@@ -18,14 +19,15 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class TurmaService {
 
-	private final RabbitTemplate publisher;
+	@Autowired
+	private Publisher publisher;
 
 	@Autowired
 	TurmaRepository turmaRepository;
 	
 	public Turma atualizaTurma(TurmaDto turmaDto) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_TURMA_ATUALIZAR, turmaDto);
 		Turma turmaModel = turmaRepository.getOne(turmaDto.getIdTurma());
 		if(turmaModel != null) {
@@ -42,7 +44,7 @@ public class TurmaService {
 
 	public Turma criarTurma(TurmaDto turma) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_TURMA_CRIAR, turma);
 		
 		Turma turmaModel = criarModelTurma(turma);
@@ -52,7 +54,7 @@ public class TurmaService {
 
 	public Turma deletarTurma(TurmaDto turma) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_TURMA_DELETAR, turma);
 		Turma turmaModel = turmaRepository.getOne(turma.getIdTurma());
 		

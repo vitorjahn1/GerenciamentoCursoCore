@@ -1,4 +1,4 @@
-package com.projetogerenciamentocurso.gerenciamentocurso.Exceptions;
+package com.projetogerenciamentocurso.gerenciamentocurso.exceptions;
 
 public class AlunoException extends RuntimeException{
 

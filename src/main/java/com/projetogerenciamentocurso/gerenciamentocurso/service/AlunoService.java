@@ -2,12 +2,12 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
 
@@ -17,15 +17,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Transactional
 public class AlunoService {
-
-	private final RabbitTemplate publisher;
+	
+	@Autowired
+	private Publisher publisher;
 	
 	@Autowired
 	private AlunoRepository alunoRepository;
 	
 	public Aluno retornaAluno(AlunoDto aluno) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY, aluno);
 		
 		Aluno alunoModel = alunoRepository.save(criarAlunoModel(aluno));
@@ -36,7 +37,7 @@ public class AlunoService {
 
 	public Aluno deletarAluno(AlunoDto aluno) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO_DELETAR, aluno);
 		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
@@ -50,7 +51,7 @@ public class AlunoService {
 	
 	public Aluno atualizarAluno(AlunoDto aluno) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO, aluno);
 		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());

@@ -2,12 +2,12 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
 
@@ -18,14 +18,15 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class ProfessorService {
 
-	private final RabbitTemplate publisher;
+	@Autowired
+	private Publisher publisher;
 
 	@Autowired
 	private ProfessorRepository professorRepository;
 	
 	public Professor criarProfessor(ProfessorDto professor) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
 		
 		Professor professorModel = criarModelProfessor(professor);
@@ -38,7 +39,7 @@ public class ProfessorService {
 
 	public Professor atuzalizarProfessor(ProfessorDto professor) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
 		
 		Professor atualizaProfessor = professorRepository.getOne(professor.getIdPessoa());
@@ -57,7 +58,7 @@ public class ProfessorService {
 
 	public Professor deletarProfessor(ProfessorDto professor) {
 
-		publisher.convertAndSend(GerenciamentoCursoApplication.EXCHANGE_NAME,
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
 		
 		Professor professorModel = criarModelProfessor(professor);
