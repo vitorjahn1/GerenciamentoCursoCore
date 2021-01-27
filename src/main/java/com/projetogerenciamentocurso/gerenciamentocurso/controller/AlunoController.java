@@ -25,7 +25,6 @@ public class AlunoController {
 	private AlunoService alunoService;
 
 	@PostMapping
-	@Transactional
 	public ResponseEntity<Aluno> salvarAluno(@RequestBody AlunoDto aluno) {
 		Aluno alunoModel = alunoService.criarAlunoModel(aluno);
 
