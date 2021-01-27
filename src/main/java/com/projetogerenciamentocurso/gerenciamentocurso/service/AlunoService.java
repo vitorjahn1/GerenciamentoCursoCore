@@ -57,7 +57,7 @@ public class AlunoService {
 		return alunoModel;
 	}
 	
-	private Aluno criarAlunoModel(AlunoDto aluno) {
+	public Aluno criarAlunoModel(AlunoDto aluno) {
 		
 		Aluno alunoModel = new Aluno();
 		
