@@ -67,7 +67,7 @@ public class ProfessorService {
 		return professorModel;
 	}
 
-	public Professor criarModelProfessor(ProfessorDto professorDto) {
+	private Professor criarModelProfessor(ProfessorDto professorDto) {
 
 		Professor criaProfessorDto = new Professor();
 

@@ -64,7 +64,7 @@ public class TurmaService {
 		return turmaModel;
 	}
 
-	public Turma criarModelTurma(TurmaDto turmaDto) {
+	private Turma criarModelTurma(TurmaDto turmaDto) {
 		
 		Turma turma = new Turma();
 		

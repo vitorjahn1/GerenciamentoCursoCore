@@ -67,7 +67,7 @@ public class DisciplinaService {
 		return disciplinaModel;
 	}
 
-	public Disciplina criarModelDisciplina(DisciplinaDto disciplinaDto) {
+	private Disciplina criarModelDisciplina(DisciplinaDto disciplinaDto) {
 
 		Disciplina disciplianModel = new Disciplina();
 
