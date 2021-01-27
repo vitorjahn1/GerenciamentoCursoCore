@@ -21,8 +21,8 @@ public class ProfessorService {
 	@Autowired
 	private Publisher publisher;
 
-	@Autowired
-	private ProfessorRepository professorRepository;
+	
+	private final ProfessorRepository professorRepository;
 	
 	public Professor criarProfessor(ProfessorDto professor) {
 

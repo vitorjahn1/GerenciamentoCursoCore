@@ -21,20 +21,9 @@ public class AlunoService {
 	@Autowired
 	private Publisher publisher;
 	
-	@Autowired
-	private AlunoRepository alunoRepository;
 	
-	public Aluno retornaAluno(AlunoDto aluno) {
-
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_KEY, aluno);
-		
-		Aluno alunoModel = alunoRepository.save(criarAlunoModel(aluno));
-		
-		return alunoModel;
-
-	}
-
+	private final AlunoRepository alunoRepository;
+	
 	public Aluno deletarAluno(AlunoDto aluno) {
 
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,

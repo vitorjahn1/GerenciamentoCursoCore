@@ -20,9 +20,8 @@ public class DisciplinaService {
 
 	@Autowired
 	private Publisher publisher;
-
-	@Autowired
-	private DisciplinaRepository disciplinaRepository;
+	
+	private final DisciplinaRepository disciplinaRepository;
 
 	public Disciplina criarDisciplina(DisciplinaDto disciplina) {
 

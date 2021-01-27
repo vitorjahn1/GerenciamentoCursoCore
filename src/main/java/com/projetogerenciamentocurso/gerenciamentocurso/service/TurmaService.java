@@ -21,8 +21,8 @@ public class TurmaService {
 	@Autowired
 	private Publisher publisher;
 
-	@Autowired
-	TurmaRepository turmaRepository;
+	
+	private final TurmaRepository turmaRepository;
 	
 	public Turma atualizaTurma(TurmaDto turmaDto) {
 
