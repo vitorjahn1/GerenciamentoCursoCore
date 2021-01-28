@@ -2,11 +2,11 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.DisciplinaDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
@@ -18,27 +18,24 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class DisciplinaService {
 
-	@Autowired
-	private Publisher publisher;
+	
+	private final Publisher publisher;
 	
 	private final DisciplinaRepository disciplinaRepository;
 
-	public Disciplina criarDisciplina(DisciplinaDto disciplina) {
-
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
+	public DisciplinaDtoResposta criarDisciplina(DisciplinaDto disciplina) {
 		
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);
 		
 		disciplinaRepository.save(disciplinaModel);
 		
-		return disciplinaModel;
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
+		
+		return criarDisciplinaDtoResposta(disciplina);
 	}
 
-	public Disciplina atualizarDisciplina(DisciplinaDto disciplina) {
-
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
+	public DisciplinaDtoResposta atualizarDisciplina(DisciplinaDto disciplina) {
 
 		Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
 		if (disciplinaAtualiza != null) {
@@ -51,32 +48,51 @@ public class DisciplinaService {
 
 			disciplinaRepository.save(disciplinaAtualiza);
 		}
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
 
-		return disciplinaAtualiza;
+		return criarDisciplinaDtoResposta(disciplina);
 	}
 
-	public Disciplina deletarDisciplina(DisciplinaDto disciplina) {
+	public DisciplinaDtoResposta deletarDisciplina(DisciplinaDto disciplina) {
 
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_DELETAR, disciplina);
 
 		Disciplina disciplinaModel = criarModelDisciplina(disciplina);
 		if (disciplinaModel != null) {
 			disciplinaRepository.delete(disciplinaModel);
 		}
-		return disciplinaModel;
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_DELETAR, disciplina);
+		
+		return criarDisciplinaDtoResposta(disciplina);
 	}
 
 	private Disciplina criarModelDisciplina(DisciplinaDto disciplinaDto) {
 
-		Disciplina disciplianModel = new Disciplina();
+		Disciplina disciplianaModel = new Disciplina();
 
-		disciplianModel.setProfessores(disciplinaDto.getProfessores());
-		disciplianModel.setDescricao(disciplinaDto.getDescricao());
-		disciplianModel.setCargaHoraria(disciplinaDto.getCargaHoraria());
-		disciplianModel.setSigla(disciplinaDto.getSigla());
-		disciplianModel.setTurmas(disciplinaDto.getTurmas());
+		disciplianaModel.setProfessores(disciplinaDto.getProfessores());
+		disciplianaModel.setDescricao(disciplinaDto.getDescricao());
+		disciplianaModel.setCargaHoraria(disciplinaDto.getCargaHoraria());
+		disciplianaModel.setSigla(disciplinaDto.getSigla());
+		disciplianaModel.setTurmas(disciplinaDto.getTurmas());
 
-		return disciplianModel;
+		return disciplianaModel;
+	}
+	
+	private DisciplinaDtoResposta criarDisciplinaDtoResposta(DisciplinaDto disciplinaDto) {
+		
+		DisciplinaDtoResposta disciplianaDtoResposta = new DisciplinaDtoResposta();
+
+		disciplianaDtoResposta.setProfessores(disciplinaDto.getProfessores());
+		disciplianaDtoResposta.setDescricao(disciplinaDto.getDescricao());
+		disciplianaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
+		disciplianaDtoResposta.setSigla(disciplinaDto.getSigla());
+		disciplianaDtoResposta.setTurmas(disciplinaDto.getTurmas());
+
+		return disciplianaDtoResposta;
+		
 	}
 }

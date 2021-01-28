@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
+import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.DisciplinaDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.DisciplinaService;
 
 import lombok.AllArgsConstructor;
@@ -27,19 +27,16 @@ public class DisciplinaController {
 	public static final String PATH = "/disciplina";
 
 	@PostMapping
-	public ResponseEntity<Disciplina> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
+	public ResponseEntity<DisciplinaDtoResposta> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
 
-		Disciplina disciplinaModel = disciplinaService.criarDisciplina(disciplina);
-		disciplinaService.criarDisciplina(disciplina);
-
-		return ResponseEntity.ok(disciplinaModel);
+		return ResponseEntity.ok(disciplinaService.criarDisciplina(disciplina));
 
 	}
 
 	@PutMapping
-	public ResponseEntity<Disciplina> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
+	public ResponseEntity<DisciplinaDtoResposta> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
 
-		Disciplina disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);
+		DisciplinaDtoResposta disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);
 		if (disciplinaAtualiza != null) {
 
 			return ResponseEntity.ok(disciplinaAtualiza);
@@ -51,9 +48,9 @@ public class DisciplinaController {
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Disciplina> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
+	public ResponseEntity<DisciplinaDtoResposta> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
 
-		Disciplina deletarDisciplina = disciplinaService.deletarDisciplina(disciplina);
+		DisciplinaDtoResposta deletarDisciplina = disciplinaService.deletarDisciplina(disciplina);
 		if (deletarDisciplina != null) {
 
 			return ResponseEntity.ok(deletarDisciplina);

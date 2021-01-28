@@ -2,11 +2,11 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.AlunoDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
@@ -18,16 +18,15 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class AlunoService {
 	
-	@Autowired
-	private Publisher publisher;
+	
+	private final Publisher publisher;
 	
 	
 	private final AlunoRepository alunoRepository;
 	
-	public Aluno deletarAluno(AlunoDto aluno) {
+	public AlunoDtoResposta deletarAluno(AlunoDto aluno) {
 
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO_DELETAR, aluno);
+	
 		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
 		if(alunoModel!=null) {
@@ -35,14 +34,14 @@ public class AlunoService {
 			alunoRepository.delete(alunoModel);
 		}
 		
-		return alunoModel;
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO_DELETAR, aluno);
+		
+		return criarAlunoDtoResposta(aluno);
 	}
 	
-	public Aluno atualizarAluno(AlunoDto aluno) {
+	public AlunoDtoResposta atualizarAluno(AlunoDto aluno) {
 
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO, aluno);
-		
 		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
 		if (alunoModel != null) {
 
@@ -54,10 +53,14 @@ public class AlunoService {
 			
 			alunoRepository.save(alunoModel);
 		}
-		return alunoModel;
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_KEY_ALUNO, aluno);
+		
+		return criarAlunoDtoResposta(aluno);
 	}
 	
-	public Aluno criarAlunoModel(AlunoDto aluno) {
+	private void salvarAlunoDto(AlunoDto aluno) {
 		
 		Aluno alunoModel = new Aluno();
 		
@@ -67,7 +70,32 @@ public class AlunoService {
 		alunoModel.setNome(aluno.getNome());
 		alunoModel.setTurma(aluno.getTurma());
 		
-		return alunoModel;
+		alunoRepository.save(alunoModel);
+	}
+	
+	public AlunoDtoResposta criarAluno(AlunoDto aluno) {
+		
+		AlunoDtoResposta alunoDtoResposta = criarAlunoDtoResposta(aluno);
+		
+		salvarAlunoDto(aluno);
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_KEY, aluno);
+		
+		return alunoDtoResposta;
+	}
+	
+	private AlunoDtoResposta criarAlunoDtoResposta(AlunoDto aluno) {
+		
+	AlunoDtoResposta alunoDtoResposta = new AlunoDtoResposta();
+		
+		alunoDtoResposta.setCpf(aluno.getCpf());
+		alunoDtoResposta.setEmail(aluno.getEmail());
+		alunoDtoResposta.setFormaIngresso(aluno.getFormaIngresso());
+		alunoDtoResposta.setNome(aluno.getNome());
+		alunoDtoResposta.setTurma(aluno.getTurma());
+		
+		return alunoDtoResposta;
 	}
 	
 }

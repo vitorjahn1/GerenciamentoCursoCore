@@ -2,11 +2,11 @@ package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
+import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.ProfessorDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
@@ -18,30 +18,27 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class ProfessorService {
 
-	@Autowired
-	private Publisher publisher;
+	
+	private final Publisher publisher;
 
 	
 	private final ProfessorRepository professorRepository;
 	
-	public Professor criarProfessor(ProfessorDto professor) {
-
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
+	public ProfessorDtoResposta criarProfessor(ProfessorDto professor) {
 		
 		Professor professorModel = criarModelProfessor(professor);
 		
-		professorRepository.save(criarModelProfessor(professor));
+		professorRepository.save(professorModel);
 		
-		return professorModel;
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
+		
+		return criarProfessorDtoResposta(professor);
 		 
 	}
 
-	public Professor atuzalizarProfessor(ProfessorDto professor) {
+	public ProfessorDtoResposta atuzalizarProfessor(ProfessorDto professor) {
 
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
-		
 		Professor atualizaProfessor = professorRepository.getOne(professor.getIdPessoa());
 		if(atualizaProfessor!=null) {
 			
@@ -51,20 +48,22 @@ public class ProfessorService {
 			atualizaProfessor.setTitulacao(professor.getTitulacao());
 			professorRepository.save(atualizaProfessor);
 			
+			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+					GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
 		}
 		
-		return atualizaProfessor;
+		return criarProfessorDtoResposta(professor);
 	}
 
-	public Professor deletarProfessor(ProfessorDto professor) {
+	public ProfessorDtoResposta deletarProfessor(ProfessorDto professor) {
 
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
-		
 		Professor professorModel = criarModelProfessor(professor);
 		
 		professorRepository.delete(professorModel);
-		return professorModel;
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+				GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
+		return criarProfessorDtoResposta(professor);
 	}
 
 	private Professor criarModelProfessor(ProfessorDto professorDto) {
@@ -77,5 +76,18 @@ public class ProfessorService {
 		criaProfessorDto.setTitulacao(professorDto.getTitulacao());
 
 		return criaProfessorDto;
+	}
+	
+	private ProfessorDtoResposta criarProfessorDtoResposta(ProfessorDto professorDto) {
+		
+		ProfessorDtoResposta professorDtoResposta = new ProfessorDtoResposta();
+
+		professorDtoResposta.setCpf(professorDto.getCpf());
+		professorDtoResposta.setEmail(professorDto.getEmail());
+		professorDtoResposta.setNome(professorDto.getNome());
+		professorDtoResposta.setTitulacao(professorDto.getTitulacao());
+
+		return professorDtoResposta;
+		
 	}
 }

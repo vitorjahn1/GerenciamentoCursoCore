@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
+import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.ProfessorDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.ProfessorService;
 
 import lombok.AllArgsConstructor;
@@ -26,15 +26,14 @@ public class ProfessorController {
 	public static final String PATH = "/professor";
 	
 	@PostMapping
-	public ResponseEntity<Professor> salvaProfessor(@RequestBody ProfessorDto professor) {
-		Professor professorModel = professorService.criarProfessor(professor);
+	public ResponseEntity<ProfessorDtoResposta> salvaProfessor(@RequestBody ProfessorDto professor) {
 		
-		return ResponseEntity.ok(professorModel);
+		return ResponseEntity.ok( professorService.criarProfessor(professor));
 	}
 	
 	@PutMapping
-	public ResponseEntity<Professor> atualizaProfessor(@RequestBody ProfessorDto professor) {
-		Professor atualizaProfessor = professorService.atuzalizarProfessor(professor);
+	public ResponseEntity<ProfessorDtoResposta> atualizaProfessor(@RequestBody ProfessorDto professor) {
+		ProfessorDtoResposta atualizaProfessor = professorService.atuzalizarProfessor(professor);
 		if(atualizaProfessor != null) {
 			
 			return ResponseEntity.ok(atualizaProfessor);
@@ -47,9 +46,9 @@ public class ProfessorController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<Professor> deletarProfessor(@RequestBody ProfessorDto professor) {
+	public ResponseEntity<ProfessorDtoResposta> deletarProfessor(@RequestBody ProfessorDto professor) {
 		
-		Professor deletarProfessor = professorService.deletarProfessor(professor);
+		ProfessorDtoResposta deletarProfessor = professorService.deletarProfessor(professor);
 		
 		if(deletarProfessor != null) {
 			
