@@ -1,17 +1,11 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.exceptions;
 
-import java.util.Set;
+public class TurmaException extends RuntimeException{
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+	private static final long serialVersionUID = 5891289913524251413L;
 
-public class TurmaException extends ConstraintViolationException{
-
-	private static final long serialVersionUID = 391262580150974562L;
-
-	public TurmaException(Set<? extends ConstraintViolation<?>> constraintViolations) {
-		super(constraintViolations);
+	public TurmaException(String mensagem) {
 		
+		super(mensagem);
 	}
-
 }

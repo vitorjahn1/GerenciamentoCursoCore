@@ -1,7 +1,5 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.models;
 
-
-
 import java.io.Serializable;
 
 import javax.persistence.Id;
@@ -23,5 +21,4 @@ public class Pessoa implements Serializable {
 	private String nome;
 	private String cpf;
 	private String email;
-
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.AlunoDtoResposta;
-import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.AlunoException;
 import com.projetogerenciamentocurso.gerenciamentocurso.service.AlunoService;
 
 import lombok.AllArgsConstructor;
@@ -21,45 +20,25 @@ import lombok.AllArgsConstructor;
 public class AlunoController {
 
 	public static final String PATH = "/aluno";
-
 	
 	private final AlunoService alunoService;
 	
 	@PostMapping
-	public ResponseEntity<AlunoDtoResposta> salvarAluno(@RequestBody AlunoDto aluno)throws AlunoException {
-		
+	public ResponseEntity<AlunoDtoResposta> salvarAluno(@RequestBody AlunoDto aluno){
 		 
 		return ResponseEntity.ok( alunoService.criarAluno(aluno));
 	}
 
 	@PutMapping
-	public ResponseEntity<AlunoDtoResposta> atualizarAluno(@RequestBody AlunoDto atualizaAluno)throws AlunoException {
-		AlunoDtoResposta aluno = alunoService.atualizarAluno(atualizaAluno);
-		if (aluno != null) {
-			return ResponseEntity.ok(aluno);
-
-		} else {
-			return ResponseEntity.notFound().build();
-
-		}
-
+	public ResponseEntity<AlunoDtoResposta> atualizarAluno(@RequestBody AlunoDto atualizaAluno){
+		
+		return ResponseEntity.ok(alunoService.atualizarAluno(atualizaAluno));
 	}
 
 	@DeleteMapping
 	public ResponseEntity<AlunoDtoResposta> deletarAluno(@RequestBody AlunoDto aluno) {
 
-		AlunoDtoResposta deletarALuno = alunoService.deletarAluno(aluno);
-		if (deletarALuno != null) {
-
-			
-			return ResponseEntity.ok(deletarALuno);
-
-		} else {
-
-			return ResponseEntity.notFound().build();
-
-		}
-
+		
+		return ResponseEntity.ok(alunoService.deletarAluno(aluno));
 	}
-
 }

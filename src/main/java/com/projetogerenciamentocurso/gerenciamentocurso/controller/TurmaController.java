@@ -33,29 +33,13 @@ public class TurmaController {
 
 	@PutMapping
 	public ResponseEntity<TurmaDtoResposta> atualizarTurma(@RequestBody TurmaDto turma) {
-		TurmaDtoResposta atualizaTurma = turmaService.atualizaTurma(turma);
-		if (atualizaTurma != null) {
-
-			return ResponseEntity.ok(atualizaTurma);
-		} else {
-
-			return ResponseEntity.notFound().build();
-		}
-
+		
+		return ResponseEntity.ok(turmaService.atualizaTurma(turma));
 	}
 
 	@DeleteMapping
 	public ResponseEntity<TurmaDtoResposta> deletarTurma(@RequestBody TurmaDto turma) {
 
-		TurmaDtoResposta deletarTurma = turmaService.deletarTurma(turma);
-		if (deletarTurma != null) {
-			return ResponseEntity.ok(deletarTurma);
-
-		} else {
-
-			return ResponseEntity.notFound().build();
-		}
-
+		return ResponseEntity.ok(turmaService.deletarTurma(turma));
 	}
-
 }

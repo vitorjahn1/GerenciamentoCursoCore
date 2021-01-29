@@ -40,5 +40,4 @@ public class Turma implements Serializable{
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "turma")
 	@JsonIgnore
 	private Set<Aluno> alunos = new HashSet<>();
-	
 }

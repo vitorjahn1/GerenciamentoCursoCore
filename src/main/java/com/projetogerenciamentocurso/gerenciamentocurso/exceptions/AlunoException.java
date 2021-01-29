@@ -1,20 +1,12 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.exceptions;
 
-import java.util.Set;
+public class AlunoException extends RuntimeException {
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+	private static final long serialVersionUID = 8519001518988272104L;
 
-
-
-public class AlunoException extends ConstraintViolationException{
-	
-	
-	private static final long serialVersionUID = -915975808911160221L;
-	
-	public AlunoException(Set<? extends ConstraintViolation<?>> constraintViolations) {
+	public AlunoException(String mensagem) {
 		
-		super(constraintViolations);
+		super(mensagem);
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.AlunoDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.AlunoDtoResposta;
+import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.AlunoException;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
@@ -18,20 +19,17 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class AlunoService {
 	
-	
 	private final Publisher publisher;
-	
 	
 	private final AlunoRepository alunoRepository;
 	
 	public AlunoDtoResposta deletarAluno(AlunoDto aluno) {
-
-	
 		
-		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
-		if(alunoModel!=null) {
+		if(aluno!=null) {
 			 
-			alunoRepository.delete(alunoModel);
+			alunoRepository.delete(alunoRepository.getOne(aluno.getMatricula()));
+		}else {
+			throw new AlunoException("Aluno não encontrado");
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
@@ -52,6 +50,8 @@ public class AlunoService {
 			alunoModel.setTurma(aluno.getTurma());
 			
 			alunoRepository.save(alunoModel);
+		}else {
+			throw new AlunoException("Aluno não encontrado");
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,

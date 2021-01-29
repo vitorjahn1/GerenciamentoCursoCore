@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.TurmaDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.TurmaDtoResposta;
+import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.TurmaException;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.TurmaRepository;
@@ -17,7 +18,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Transactional
 public class TurmaService {
-
 	
 	private final Publisher publisher;
 
@@ -37,6 +37,9 @@ public class TurmaService {
 			
 			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 					GerenciamentoCursoApplication.ROUTING_TURMA_ATUALIZAR, turmaDto);
+		}else {
+			
+			throw new TurmaException("Turma não encontrada");
 		}
 		return criarTurmaDtoResposta(turmaDto);
 	}
@@ -55,14 +58,14 @@ public class TurmaService {
 
 	public TurmaDtoResposta deletarTurma(TurmaDto turma) {
 
-		
-		Turma turmaModel = turmaRepository.getOne(turma.getIdTurma());
-
-		if (turmaModel != null) {
+		if (turma.getIdTurma() != null) {
 			
 			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME, GerenciamentoCursoApplication.ROUTING_TURMA_DELETAR,
 					turma);
-			turmaRepository.delete(turmaModel);
+			turmaRepository.delete(turmaRepository.getOne(turma.getIdTurma()));
+		}else {
+			
+			throw new TurmaException("Turma não encontrada");
 		}
 		return criarTurmaDtoResposta(turma);
 	}

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.ProfessorDtoResposta;
+import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.ProfessorException;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
@@ -18,10 +19,8 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class ProfessorService {
 
-	
 	private final Publisher publisher;
 
-	
 	private final ProfessorRepository professorRepository;
 	
 	public ProfessorDtoResposta criarProfessor(ProfessorDto professor) {
@@ -34,7 +33,6 @@ public class ProfessorService {
 				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
 		
 		return criarProfessorDtoResposta(professor);
-		 
 	}
 
 	public ProfessorDtoResposta atuzalizarProfessor(ProfessorDto professor) {
@@ -50,19 +48,25 @@ public class ProfessorService {
 			
 			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
 					GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
+		}else {
+			
+			throw new ProfessorException("Professor não encontrado");
 		}
 		
 		return criarProfessorDtoResposta(professor);
 	}
 
 	public ProfessorDtoResposta deletarProfessor(ProfessorDto professor) {
-
-		Professor professorModel = criarModelProfessor(professor);
 		
-		professorRepository.delete(professorModel);
-		
-		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
+		if(professor.getIdProfessor()!=null) {
+			professorRepository.delete(professorRepository.getOne(professor.getIdProfessor()));
+			
+			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+					GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
+		}else {
+			
+			throw new ProfessorException("Professor não encontrado");
+		}
 		return criarProfessorDtoResposta(professor);
 	}
 
@@ -88,6 +92,5 @@ public class ProfessorService {
 		professorDtoResposta.setTitulacao(professorDto.getTitulacao());
 
 		return professorDtoResposta;
-		
 	}
 }

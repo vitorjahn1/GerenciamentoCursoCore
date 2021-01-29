@@ -30,34 +30,17 @@ public class DisciplinaController {
 	public ResponseEntity<DisciplinaDtoResposta> criaDisciplina(@RequestBody DisciplinaDto disciplina) {
 
 		return ResponseEntity.ok(disciplinaService.criarDisciplina(disciplina));
-
 	}
 
 	@PutMapping
 	public ResponseEntity<DisciplinaDtoResposta> atualizarDisciplina(@RequestBody DisciplinaDto disciplina) {
 
-		DisciplinaDtoResposta disciplinaAtualiza = disciplinaService.atualizarDisciplina(disciplina);
-		if (disciplinaAtualiza != null) {
-
-			return ResponseEntity.ok(disciplinaAtualiza);
-		} else {
-
-			return ResponseEntity.notFound().build();
-		}
-
+		return ResponseEntity.ok(disciplinaService.atualizarDisciplina(disciplina));
 	}
 
 	@DeleteMapping
 	public ResponseEntity<DisciplinaDtoResposta> deletarDisciplina(@RequestBody DisciplinaDto disciplina) {
 
-		DisciplinaDtoResposta deletarDisciplina = disciplinaService.deletarDisciplina(disciplina);
-		if (deletarDisciplina != null) {
-
-			return ResponseEntity.ok(deletarDisciplina);
-
-		}
-		return ResponseEntity.notFound().build();
-
+		return ResponseEntity.ok(disciplinaService.deletarDisciplina(disciplina));
 	}
-
 }

@@ -104,13 +104,7 @@
 		</dependency>
 
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>tjf-release</id>
-			<name>TOTVS Java Framework: Releases</name>
-			<url>http://maven.engpro.totvs.com.br/artifactory/libs-release/</url>
-		</repository>
-	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>

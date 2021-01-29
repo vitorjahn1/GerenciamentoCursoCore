@@ -38,24 +38,4 @@ public class Aluno extends Pessoa implements Serializable{
 		this.formaIngresso = formaIngresso;
 		this.turma = turma;
 	}
-	
-
-	
-
-	
-	
-
-	
-
-	
-	
-
-	
-	
-
-	
-	
-	
-	
-	
 }

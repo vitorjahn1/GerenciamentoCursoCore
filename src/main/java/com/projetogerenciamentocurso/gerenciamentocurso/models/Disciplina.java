@@ -16,8 +16,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Entity
 @NoArgsConstructor
 @Data

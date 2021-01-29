@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.DisciplinaDtoResposta;
+import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.DisciplinaException;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
@@ -18,7 +19,6 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class DisciplinaService {
 
-	
 	private final Publisher publisher;
 	
 	private final DisciplinaRepository disciplinaRepository;
@@ -47,6 +47,9 @@ public class DisciplinaService {
 			disciplinaAtualiza.setTurmas(disciplina.getTurmas());
 
 			disciplinaRepository.save(disciplinaAtualiza);
+		}else {
+			
+			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
@@ -56,11 +59,12 @@ public class DisciplinaService {
 	}
 
 	public DisciplinaDtoResposta deletarDisciplina(DisciplinaDto disciplina) {
-
-
-		Disciplina disciplinaModel = criarModelDisciplina(disciplina);
-		if (disciplinaModel != null) {
-			disciplinaRepository.delete(disciplinaModel);
+		
+		if (disciplina.getIdDisciplina() != null) {
+			disciplinaRepository.delete(disciplinaRepository.getOne(disciplina.getIdDisciplina()));
+		}else {
+			
+			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
@@ -93,6 +97,5 @@ public class DisciplinaService {
 		disciplianaDtoResposta.setTurmas(disciplinaDto.getTurmas());
 
 		return disciplianaDtoResposta;
-		
 	}
 }

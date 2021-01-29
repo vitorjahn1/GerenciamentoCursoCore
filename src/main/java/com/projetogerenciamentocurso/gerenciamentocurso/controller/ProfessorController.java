@@ -14,12 +14,10 @@ import com.projetogerenciamentocurso.gerenciamentocurso.service.ProfessorService
 
 import lombok.AllArgsConstructor;
 
-
 @RestController
 @RequestMapping(path = ProfessorController.PATH)
 @AllArgsConstructor
 public class ProfessorController {
-	
 	
 	private final ProfessorService professorService;
 	
@@ -33,30 +31,13 @@ public class ProfessorController {
 	
 	@PutMapping
 	public ResponseEntity<ProfessorDtoResposta> atualizaProfessor(@RequestBody ProfessorDto professor) {
-		ProfessorDtoResposta atualizaProfessor = professorService.atuzalizarProfessor(professor);
-		if(atualizaProfessor != null) {
-			
-			return ResponseEntity.ok(atualizaProfessor);
-			
-		}else {
-			
-			return ResponseEntity.notFound().build();
-		}
 		
+		return ResponseEntity.ok(professorService.atuzalizarProfessor(professor));
 	}
 	
 	@DeleteMapping
 	public ResponseEntity<ProfessorDtoResposta> deletarProfessor(@RequestBody ProfessorDto professor) {
 		
-		ProfessorDtoResposta deletarProfessor = professorService.deletarProfessor(professor);
-		
-		if(deletarProfessor != null) {
-			
-			return ResponseEntity.ok(deletarProfessor);
-		}else {
-			
-			return ResponseEntity.notFound().build();
-		}
-		
+		return ResponseEntity.ok(professorService.deletarProfessor(professor));
 	}
 }

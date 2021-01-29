@@ -1,17 +1,11 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.exceptions;
 
-import java.util.Set;
+public class ProfessorException extends RuntimeException {
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+	private static final long serialVersionUID = 2032886023727999997L;
 
-public class ProfessorException extends ConstraintViolationException{
-
-	private static final long serialVersionUID = -2259960717396228680L;
-
-	public ProfessorException(Set<? extends ConstraintViolation<?>> constraintViolations) {
-		super(constraintViolations);
+	public ProfessorException(String mensagem) {
 		
+		super(mensagem);
 	}
-
 }

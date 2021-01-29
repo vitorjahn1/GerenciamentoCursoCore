@@ -1,17 +1,11 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.exceptions;
 
-import java.util.Set;
+public class DisciplinaException extends RuntimeException{
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+	private static final long serialVersionUID = -3490138342889205880L;
 
-public class DisciplinaException extends ConstraintViolationException{
-
-	private static final long serialVersionUID = -5917253023331594454L;
-
-	public DisciplinaException(Set<? extends ConstraintViolation<?>> constraintViolations) {
-		super(constraintViolations);
-		
+	public DisciplinaException(String mensagem) {
+		super(mensagem);
 	}
-
+	
 }
