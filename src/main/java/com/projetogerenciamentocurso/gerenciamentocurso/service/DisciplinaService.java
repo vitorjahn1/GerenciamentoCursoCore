@@ -1,5 +1,6 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -36,19 +37,18 @@ public class DisciplinaService {
 	}
 
 	public DisciplinaDtoResposta atualizarDisciplina(DisciplinaDto disciplina) {
-
-		Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
-		if (disciplinaAtualiza != null) {
-
+		try {
+			
+			Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
+			
 			disciplinaAtualiza.setProfessores(disciplina.getProfessores());
 			disciplinaAtualiza.setDescricao(disciplina.getDescricao());
 			disciplinaAtualiza.setCargaHoraria(disciplina.getCargaHoraria());
 			disciplinaAtualiza.setSigla(disciplina.getSigla());
 			disciplinaAtualiza.setTurmas(disciplina.getTurmas());
-
-			disciplinaRepository.save(disciplinaAtualiza);
-		}else {
 			
+			disciplinaRepository.save(disciplinaAtualiza);
+		}catch (EntityNotFoundException e) {
 			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
@@ -60,10 +60,11 @@ public class DisciplinaService {
 
 	public DisciplinaDtoResposta deletarDisciplina(DisciplinaDto disciplina) {
 		
-		if (disciplina.getIdDisciplina() != null) {
-			disciplinaRepository.delete(disciplinaRepository.getOne(disciplina.getIdDisciplina()));
-		}else {
+		try {
+			Disciplina disciplinaDeletar = disciplinaRepository.getOne(disciplina.getIdDisciplina());
 			
+			disciplinaRepository.delete(disciplinaDeletar);
+		}catch (Exception e) {
 			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
@@ -82,7 +83,7 @@ public class DisciplinaService {
 		disciplianaModel.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaModel.setSigla(disciplinaDto.getSigla());
 		disciplianaModel.setTurmas(disciplinaDto.getTurmas());
-
+		disciplianaModel.setIdDisciplina(disciplinaDto.getIdDisciplina());
 		return disciplianaModel;
 	}
 	

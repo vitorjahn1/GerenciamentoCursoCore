@@ -19,7 +19,7 @@ class TurmaControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	private void criarTurmaRetornaSucesso() throws Exception {
+	 void criarTurmaRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/turma");
 
@@ -31,7 +31,7 @@ class TurmaControllerTest {
 	}
 
 	@Test
-	private void atualizarTurmaRetornaSucesso() throws Exception {
+	 void atualizarTurmaRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/turma");
 
@@ -43,7 +43,7 @@ class TurmaControllerTest {
 	}
 
 	@Test
-	private void deletarTurmaRetornaSucesso() throws Exception {
+	 void deletarTurmaRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/turma");
 		String json = "{\"idTurma\":3,\"anoLetivo\":\"2\",\"descricao\":\"teste3\",\"numeroVagas\":20,\"periodoLetivo\":4,\"disciplinas\":[{\"idDisciplina\":1,\"descricao\":\"teste\",\"cargaHoraria\":\"10\",\"sigla\":\"tes\",\"professoeres\":[]}]}";

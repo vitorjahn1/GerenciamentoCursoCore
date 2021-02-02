@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class Pessoa implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Id
+	private static final long serialVersionUID = 8354093344485163210L;
+	@Id 
 	private Integer idPessoa;
 	private String nome;
 	private String cpf;

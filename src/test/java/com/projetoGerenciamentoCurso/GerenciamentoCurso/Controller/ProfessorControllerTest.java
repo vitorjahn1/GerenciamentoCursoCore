@@ -19,7 +19,7 @@ class ProfessorControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	private void criarProfessorRetornaSucesso() throws Exception {
+	public void criarProfessorRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/professor");
 
@@ -31,7 +31,7 @@ class ProfessorControllerTest {
 	}
 
 	@Test
-	private void atualizarProfessorRetornaSucesso() throws Exception {
+	public void atualizarProfessorRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/professor");
 
@@ -43,7 +43,7 @@ class ProfessorControllerTest {
 	
 	
 	@Test
-	private void deletarProfessorRetornaSucesso() throws Exception {
+	public void deletarProfessorRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/professor");
 

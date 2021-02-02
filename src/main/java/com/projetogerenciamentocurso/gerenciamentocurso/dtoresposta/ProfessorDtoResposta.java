@@ -1,5 +1,7 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta;
 
+import java.io.Serializable;
+
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Pessoa;
 
@@ -8,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class ProfessorDtoResposta extends Pessoa{
+public class ProfessorDtoResposta extends Pessoa implements Serializable{
 
 	private static final long serialVersionUID = -3896106492973904501L;
 

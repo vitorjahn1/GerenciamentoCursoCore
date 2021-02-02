@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.sun.istack.NotNull;
@@ -22,8 +23,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class Aluno extends Pessoa implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -6440400741036979763L;
 	private Integer matricula;
 	@NotNull
 	private String formaIngresso;
@@ -31,10 +32,9 @@ public class Aluno extends Pessoa implements Serializable{
 	private Set<Turma> turma = new HashSet<>();
 	
 	
-	public Aluno(Integer idPessoa, String nome, String cpf, String email, Integer matricula, String formaIngresso,
+	public Aluno(Integer idPessoa, String nome, String cpf, String email, String formaIngresso,
 			Set<Turma> turma) {
 		super(idPessoa, nome, cpf, email);
-		this.matricula = super.getIdPessoa();
 		this.formaIngresso = formaIngresso;
 		this.turma = turma;
 	}

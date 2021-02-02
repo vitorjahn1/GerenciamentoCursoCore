@@ -2,7 +2,9 @@ package com.projetoGerenciamentoCurso.GerenciamentoCurso.Controller;
 
 import java.net.URI;
 
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.JVM)
 public class AlunoControllerTest {
 
 	
@@ -20,7 +23,7 @@ public class AlunoControllerTest {
 	private MockMvc mockMvc;
 	
 	@Test
-	private void criarAlunoRetornaSucesso() throws Exception {
+	public void criarAlunoRetornaSucesso() throws Exception {
 		
 		
 		
@@ -42,7 +45,7 @@ public class AlunoControllerTest {
 	
 	
 	@Test
-	private void atualizarAlunoRetornaSucesso() throws Exception {
+	public void atualizarAlunoRetornaSucesso() throws Exception {
 		
 		
 		
@@ -63,7 +66,7 @@ public class AlunoControllerTest {
 	}
 	
 	@Test
-	private void deletarAlunoRetornaSucesso() throws Exception {
+	 void deletarAlunoRetornaSucesso() throws Exception {
 		
 		URI uri = new URI("/aluno");
 		

@@ -24,9 +24,8 @@ public class TurmaService {
 	private final TurmaRepository turmaRepository;
 
 	public TurmaDtoResposta atualizaTurma(TurmaDto turmaDto) {
-
-		Turma turmaModel = turmaRepository.getOne(turmaDto.getIdTurma());
-		if (turmaModel != null) {
+		try {
+			Turma turmaModel = turmaRepository.getOne(turmaDto.getIdTurma());
 			turmaModel.setAlunos(turmaDto.getAlunos());
 			turmaModel.setAnoLetivo(turmaDto.getAnoLetivo());
 			turmaModel.setDescricao(turmaDto.getDescricao());
@@ -34,13 +33,13 @@ public class TurmaService {
 			turmaModel.setPeriodoLetivo(turmaDto.getPeriodoLetivo());
 
 			turmaRepository.save(turmaModel);
-			
-			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-					GerenciamentoCursoApplication.ROUTING_TURMA_ATUALIZAR, turmaDto);
-		}else {
-			
+		}catch (Exception e) {
 			throw new TurmaException("Turma não encontrada");
 		}
+			
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+					GerenciamentoCursoApplication.ROUTING_TURMA_ATUALIZAR, turmaDto);
+		
 		return criarTurmaDtoResposta(turmaDto);
 	}
 
@@ -57,16 +56,18 @@ public class TurmaService {
 	}
 
 	public TurmaDtoResposta deletarTurma(TurmaDto turma) {
-
-		if (turma.getIdTurma() != null) {
+		
+		try {
+			Turma turmaDelatar = turmaRepository.getOne(turma.getIdTurma());
 			
-			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME, GerenciamentoCursoApplication.ROUTING_TURMA_DELETAR,
-					turma);
-			turmaRepository.delete(turmaRepository.getOne(turma.getIdTurma()));
-		}else {
-			
+			turmaRepository.delete(turmaDelatar);
+		}catch (Exception e) {
 			throw new TurmaException("Turma não encontrada");
 		}
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME, GerenciamentoCursoApplication.ROUTING_TURMA_DELETAR,
+					turma);
+	
 		return criarTurmaDtoResposta(turma);
 	}
 
@@ -79,7 +80,7 @@ public class TurmaService {
 		turma.setDescricao(turmaDto.getDescricao());
 		turma.setNumeroVagas(turmaDto.getNumeroVagas());
 		turma.setPeriodoLetivo(turmaDto.getPeriodoLetivo());
-
+		turma.setIdTurma(turmaDto.getIdTurma());
 		return turma;
 	}
 

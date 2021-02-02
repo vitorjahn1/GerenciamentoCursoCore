@@ -27,7 +27,7 @@ public class AlunoService {
 		
 		if(aluno!=null) {
 			 
-			alunoRepository.delete(alunoRepository.getOne(aluno.getMatricula()));
+			alunoRepository.delete(alunoRepository.findByMatricula(aluno.getMatricula()));
 		}else {
 			throw new AlunoException("Aluno não encontrado");
 		}
@@ -40,7 +40,7 @@ public class AlunoService {
 	
 	public AlunoDtoResposta atualizarAluno(AlunoDto aluno) {
 
-		Aluno alunoModel = alunoRepository.getOne(aluno.getMatricula());
+		Aluno alunoModel = alunoRepository.findByMatricula(aluno.getMatricula());
 		if (alunoModel != null) {
 
 			alunoModel.setCpf(aluno.getCpf());
@@ -69,6 +69,8 @@ public class AlunoService {
 		alunoModel.setFormaIngresso(aluno.getFormaIngresso());
 		alunoModel.setNome(aluno.getNome());
 		alunoModel.setTurma(aluno.getTurma());
+		alunoModel.setIdPessoa(aluno.getIdPessoa());
+		alunoModel.setMatricula(aluno.getMatricula());
 		
 		alunoRepository.save(alunoModel);
 	}
@@ -94,7 +96,8 @@ public class AlunoService {
 		alunoDtoResposta.setFormaIngresso(aluno.getFormaIngresso());
 		alunoDtoResposta.setNome(aluno.getNome());
 		alunoDtoResposta.setTurma(aluno.getTurma());
-		
+		alunoDtoResposta.setIdPessoa(aluno.getIdPessoa());
+		alunoDtoResposta.setMatricula(aluno.getMatricula());
 		return alunoDtoResposta;
 	}
 	

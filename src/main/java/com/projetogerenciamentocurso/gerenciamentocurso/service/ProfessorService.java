@@ -36,37 +36,36 @@ public class ProfessorService {
 	}
 
 	public ProfessorDtoResposta atuzalizarProfessor(ProfessorDto professor) {
-
-		Professor atualizaProfessor = professorRepository.getOne(professor.getIdPessoa());
-		if(atualizaProfessor!=null) {
+		try {
+			Professor atualizaProfessor = professorRepository.getOne(professor.getIdPessoa());
 			
 			atualizaProfessor.setCpf(professor.getCpf());
 			atualizaProfessor.setEmail(professor.getEmail());
 			atualizaProfessor.setNome(professor.getNome());
 			atualizaProfessor.setTitulacao(professor.getTitulacao());
 			professorRepository.save(atualizaProfessor);
-			
-			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-					GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
-		}else {
-			
+		}catch (Exception e) {
 			throw new ProfessorException("Professor não encontrado");
 		}
 		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+					GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
+	
 		return criarProfessorDtoResposta(professor);
 	}
 
 	public ProfessorDtoResposta deletarProfessor(ProfessorDto professor) {
-		
-		if(professor.getIdProfessor()!=null) {
-			professorRepository.delete(professorRepository.getOne(professor.getIdProfessor()));
+		try {
+			Professor professorDeletar = professorRepository.getOne(professor.getIdProfessor());
 			
-			publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-					GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
-		}else {
-			
+			professorRepository.delete(professorDeletar);
+		}catch (Exception e) {
 			throw new ProfessorException("Professor não encontrado");
 		}
+		
+		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
+					GerenciamentoCursoApplication.ROUTING_PROFESSOR_DELETAR, professor);
+		
 		return criarProfessorDtoResposta(professor);
 	}
 
@@ -78,7 +77,8 @@ public class ProfessorService {
 		criaProfessorDto.setEmail(professorDto.getEmail());
 		criaProfessorDto.setNome(professorDto.getNome());
 		criaProfessorDto.setTitulacao(professorDto.getTitulacao());
-
+		criaProfessorDto.setIdProfessor(professorDto.getIdProfessor());
+		criaProfessorDto.setIdPessoa(professorDto.getIdPessoa());
 		return criaProfessorDto;
 	}
 	
