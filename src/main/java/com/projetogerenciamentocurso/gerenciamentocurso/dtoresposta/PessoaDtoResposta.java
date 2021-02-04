@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Id;
 
+import lombok.Data;
+@Data
 public class PessoaDtoResposta implements Serializable {
 	
 	private static final long serialVersionUID = -6879615634527994050L;

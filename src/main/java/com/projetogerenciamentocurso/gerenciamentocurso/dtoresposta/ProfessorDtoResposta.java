@@ -2,8 +2,6 @@ package com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta;
 
 import java.io.Serializable;
 
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Pessoa;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
