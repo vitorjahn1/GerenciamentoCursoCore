@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class ProfessorDtoResposta extends Pessoa implements Serializable{
+public class ProfessorDtoResposta extends PessoaDtoResposta implements Serializable{
 
 	private static final long serialVersionUID = -3896106492973904501L;
 
