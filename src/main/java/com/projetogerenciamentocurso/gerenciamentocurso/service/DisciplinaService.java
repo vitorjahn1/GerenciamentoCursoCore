@@ -40,12 +40,10 @@ public class DisciplinaService {
 		try {
 			
 			Disciplina disciplinaAtualiza = disciplinaRepository.getOne(disciplina.getIdDisciplina());
-			
-			disciplinaAtualiza.setProfessores(disciplina.getProfessores());
+			disciplinaAtualiza.setIdDisciplina(disciplina.getIdDisciplina());
 			disciplinaAtualiza.setDescricao(disciplina.getDescricao());
 			disciplinaAtualiza.setCargaHoraria(disciplina.getCargaHoraria());
 			disciplinaAtualiza.setSigla(disciplina.getSigla());
-			disciplinaAtualiza.setTurmas(disciplina.getTurmas());
 			
 			disciplinaRepository.save(disciplinaAtualiza);
 		}catch (EntityNotFoundException e) {
@@ -64,7 +62,7 @@ public class DisciplinaService {
 			Disciplina disciplinaDeletar = disciplinaRepository.getOne(disciplina.getIdDisciplina());
 			
 			disciplinaRepository.delete(disciplinaDeletar);
-		}catch (Exception e) {
+		}catch (EntityNotFoundException e) {
 			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
@@ -78,11 +76,10 @@ public class DisciplinaService {
 
 		Disciplina disciplianaModel = new Disciplina();
 
-		disciplianaModel.setProfessores(disciplinaDto.getProfessores());
 		disciplianaModel.setDescricao(disciplinaDto.getDescricao());
 		disciplianaModel.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaModel.setSigla(disciplinaDto.getSigla());
-		disciplianaModel.setTurmas(disciplinaDto.getTurmas());
+		
 		disciplianaModel.setIdDisciplina(disciplinaDto.getIdDisciplina());
 		return disciplianaModel;
 	}
@@ -91,11 +88,10 @@ public class DisciplinaService {
 		
 		DisciplinaDtoResposta disciplianaDtoResposta = new DisciplinaDtoResposta();
 
-		disciplianaDtoResposta.setProfessores(disciplinaDto.getProfessores());
 		disciplianaDtoResposta.setDescricao(disciplinaDto.getDescricao());
 		disciplianaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaDtoResposta.setSigla(disciplinaDto.getSigla());
-		disciplianaDtoResposta.setTurmas(disciplinaDto.getTurmas());
+		
 
 		return disciplianaDtoResposta;
 	}

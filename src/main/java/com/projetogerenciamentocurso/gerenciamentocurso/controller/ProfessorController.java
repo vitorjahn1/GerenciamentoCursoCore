@@ -32,7 +32,7 @@ public class ProfessorController {
 	@PutMapping
 	public ResponseEntity<ProfessorDtoResposta> atualizaProfessor(@RequestBody ProfessorDto professor) {
 		
-		return ResponseEntity.ok(professorService.atuzalizarProfessor(professor));
+		return ResponseEntity.ok(professorService.atualizarProfessor(professor));
 	}
 	
 	@DeleteMapping

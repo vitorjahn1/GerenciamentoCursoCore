@@ -2,6 +2,8 @@ package com.projetoGerenciamentoCurso.GerenciamentoCurso.Controller;
 
 import java.net.URI;
 
+import javax.transaction.Transactional;
+
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
@@ -13,24 +15,29 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.JVM)
+@Transactional
 public class AlunoControllerTest {
 
+	@Autowired
+	private AlunoRepository alunoRepository;
+	
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@Test
-	public void criarAlunoRetornaSucesso() throws Exception {
-		
+	 void criarAlunoRetornaSucesso() throws Exception {
 		
 		
 		URI uri = new URI("/aluno");
 		
-		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"3333\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\",\"turma\":[]}";
-		
+		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"3333\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\"}";
 		
 		mockMvc
 		.perform(MockMvcRequestBuilders
@@ -40,18 +47,16 @@ public class AlunoControllerTest {
 				.andExpect(MockMvcResultMatchers
 				.status()
 				.is(200));
-		
 	}
 	
-	
 	@Test
-	public void atualizarAlunoRetornaSucesso() throws Exception {
+	 void atualizarAlunoRetornaSucesso() throws Exception {
 		
-		
+		criarAluno();
 		
 		URI uri = new URI("/aluno");
 		
-		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"4444\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\",\"turma\":[]}";
+		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"4444\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\"}";
 		
 		
 		mockMvc
@@ -68,9 +73,11 @@ public class AlunoControllerTest {
 	@Test
 	 void deletarAlunoRetornaSucesso() throws Exception {
 		
+		criarAluno();
+		
 		URI uri = new URI("/aluno");
 		
-		String json = "{\"idPessoa\":3,\"nome\":\"teste\",\"cpf\":\"1111\",\"email\":\"teste@teste\",\"idProfessor\":1,\"titulacao\":\"mestre\"}";
+		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"4444\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\"}";
 		
 		
 		mockMvc
@@ -81,7 +88,18 @@ public class AlunoControllerTest {
 		.andExpect(MockMvcResultMatchers
 				.status()
 				.is(200));
-		
 	}
-
+	
+	private void criarAluno() {
+		
+		Aluno alunoModel = new Aluno();
+		alunoModel.setCpf("4444");
+		alunoModel.setEmail("teste3@teste3");
+		alunoModel.setFormaIngresso("vestibular3");
+		alunoModel.setNome("teste3");
+		alunoModel.setIdPessoa(3);
+		alunoModel.setMatricula(3);
+		
+		alunoRepository.save(alunoModel);
+	}
 }

@@ -2,7 +2,6 @@ package com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta;
 
 import java.io.Serializable;
 
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Pessoa;
 
 import lombok.Data;
@@ -18,5 +17,5 @@ public class ProfessorDtoResposta extends Pessoa implements Serializable{
 	
 	private String titulacao;
 	
-	private Disciplina disciplina;
+	private DisciplinaDtoResposta disciplina;
 }

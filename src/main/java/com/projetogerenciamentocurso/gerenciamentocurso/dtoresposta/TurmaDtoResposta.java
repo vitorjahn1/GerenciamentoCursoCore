@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
-
 import lombok.Data;
 
 @Data
@@ -24,7 +21,7 @@ public class TurmaDtoResposta implements Serializable{
 	
 	private Integer periodoLetivo;
 
-	private Set<Disciplina> disciplinas = new HashSet<>();
+	private Set<DisciplinaDtoResposta> disciplinas = new HashSet<>();
 	
-	private Set<Aluno> alunos = new HashSet<>();
+	private Set<AlunoDtoResposta> alunos = new HashSet<>();
 }

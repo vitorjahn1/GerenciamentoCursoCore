@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -20,13 +23,16 @@ class DisciplinaControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private DisciplinaRepository disciplinaRepository;
 
 	@Test
 	 void criarDisciplinaRetornaSucesso() throws Exception {
 
 		URI uri = new URI("/disciplina");
 
-		String json = "{\"idDisciplina\":4,\"descricao\":\"teste4\",\"cargaHoraria\":\"10\",\"sigla\":\"tes\",\"professoeres\":[{\"idPessoa\":1,\"nome\":\"teste\",\"cpf\":\"1111\",\"email\":\"teste@teste\",\"idProfessor\":1,\"titulacao\":\"mestre\"}]}";
+		String json = "{\"idDisciplina\":4,\"descricao\":\"teste4\",\"cargaHoraria\":\"10\",\"sigla\":\"tes\"}";
 
 		mockMvc.perform(MockMvcRequestBuilders.post(uri)
 				.content(json)
@@ -38,9 +44,11 @@ class DisciplinaControllerTest {
 	@Test
 	 void atualizarDisciplinaRetornaSucesso() throws Exception {
 
+		incluirObjetoNobanco();
+		
 		URI uri = new URI("/disciplina");
-
-		String json = "{\"idDisciplina\":3,\"descricao\":\"teste3\",\"cargaHoraria\":\"13\",\"sigla\":\"tes\",\"professoeres\":[{\"idPessoa\":1,\"nome\":\"teste\",\"cpf\":\"1111\",\"email\":\"teste@teste\",\"idProfessor\":1,\"titulacao\":\"mestre\"}]}";
+		
+		String json = "{\"idDisciplina\":4,\"descricao\":\"teste3\",\"cargaHoraria\":\"13\",\"sigla\":\"tes\"}";
 
 		mockMvc
 		.perform(MockMvcRequestBuilders
@@ -54,13 +62,27 @@ class DisciplinaControllerTest {
 
 	@Test
 	 void deletarDisciplinaRetornaSucesso() throws Exception {
-
+		
+		incluirObjetoNobanco();
+		
 		URI uri = new URI("/disciplina");
-		String json = "{\"idDisciplina\":4,\"descricao\":\"teste4\",\"cargaHoraria\":\"10\",\"sigla\":\"tes3\",\"professoeres\":[{\"idPessoa\":1,\"nome\":\"teste\",\"cpf\":\"1111\",\"email\":\"teste@teste\",\"idProfessor\":1,\"titulacao\":\"mestre\"}]}";
+		String json = "{\"idDisciplina\":4,\"descricao\":\"teste4\",\"cargaHoraria\":\"10\",\"sigla\":\"tes3\"}";
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri)
 				.content(json)
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
-
+	
+	private void incluirObjetoNobanco() {
+		
+		Disciplina disciplina = new Disciplina();
+		disciplina.setIdDisciplina(4);
+		disciplina.setDescricao("teste4");
+		disciplina.setCargaHoraria("10");
+		disciplina.setSigla("tes3");
+		
+		disciplinaRepository.save(disciplina);
+		
+	}
+	
 }

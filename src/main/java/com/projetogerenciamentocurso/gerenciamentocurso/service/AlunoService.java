@@ -24,10 +24,10 @@ public class AlunoService {
 	private final AlunoRepository alunoRepository;
 	
 	public AlunoDtoResposta deletarAluno(AlunoDto aluno) {
-		
-		if(aluno!=null) {
 			 
-			alunoRepository.delete(alunoRepository.findByMatricula(aluno.getMatricula()));
+		Aluno alunoDeletar = alunoRepository.findByMatricula(aluno.getMatricula());
+		if(alunoDeletar!=null) {
+				alunoRepository.delete(alunoDeletar);
 		}else {
 			throw new AlunoException("Aluno não encontrado");
 		}
@@ -47,7 +47,6 @@ public class AlunoService {
 			alunoModel.setEmail(aluno.getEmail());
 			alunoModel.setFormaIngresso(aluno.getFormaIngresso());
 			alunoModel.setNome(aluno.getNome());
-			alunoModel.setTurma(aluno.getTurma());
 			
 			alunoRepository.save(alunoModel);
 		}else {
@@ -68,7 +67,7 @@ public class AlunoService {
 		alunoModel.setEmail(aluno.getEmail());
 		alunoModel.setFormaIngresso(aluno.getFormaIngresso());
 		alunoModel.setNome(aluno.getNome());
-		alunoModel.setTurma(aluno.getTurma());
+		
 		alunoModel.setIdPessoa(aluno.getIdPessoa());
 		alunoModel.setMatricula(aluno.getMatricula());
 		
@@ -90,12 +89,11 @@ public class AlunoService {
 	private AlunoDtoResposta criarAlunoDtoResposta(AlunoDto aluno) {
 		
 	AlunoDtoResposta alunoDtoResposta = new AlunoDtoResposta();
-		
+	
 		alunoDtoResposta.setCpf(aluno.getCpf());
 		alunoDtoResposta.setEmail(aluno.getEmail());
 		alunoDtoResposta.setFormaIngresso(aluno.getFormaIngresso());
 		alunoDtoResposta.setNome(aluno.getNome());
-		alunoDtoResposta.setTurma(aluno.getTurma());
 		alunoDtoResposta.setIdPessoa(aluno.getIdPessoa());
 		alunoDtoResposta.setMatricula(aluno.getMatricula());
 		return alunoDtoResposta;

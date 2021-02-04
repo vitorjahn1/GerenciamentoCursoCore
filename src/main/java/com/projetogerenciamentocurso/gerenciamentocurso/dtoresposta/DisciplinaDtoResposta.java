@@ -1,11 +1,6 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
 
 import lombok.Data;
 
@@ -22,7 +17,4 @@ public class DisciplinaDtoResposta implements Serializable{
 	
 	private String sigla;
 	
-	private Turma turmas;
-
-	private Set<Professor> professores = new HashSet<>();
 }
