@@ -21,5 +21,7 @@ public class DisciplinaDto implements Serializable{
 	private String cargaHoraria;
 	
 	private String sigla;
+	
+	private ProfessorDto professor;
 
 }

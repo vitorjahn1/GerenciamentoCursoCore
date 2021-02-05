@@ -77,7 +77,6 @@ class ProfessorControllerTest {
 		professor.setTitulacao("doutor");
 		professor.setIdProfessor(3);
 		professor.setIdPessoa(3);
-		professor.setDisciplina(null);
 		professorRepository.save(professor);
 	}
 

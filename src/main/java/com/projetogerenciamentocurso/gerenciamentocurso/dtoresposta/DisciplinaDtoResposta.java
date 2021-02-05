@@ -17,4 +17,5 @@ public class DisciplinaDtoResposta implements Serializable{
 	
 	private String sigla;
 	
+	private ProfessorDtoResposta professor;
 }

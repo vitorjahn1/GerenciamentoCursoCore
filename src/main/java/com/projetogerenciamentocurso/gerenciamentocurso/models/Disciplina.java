@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,5 +23,7 @@ public class Disciplina implements Serializable{
 	private String descricao;
 	private String cargaHoraria;
 	private String sigla;
+	@ManyToOne
+	private Professor professor;
 	
 }

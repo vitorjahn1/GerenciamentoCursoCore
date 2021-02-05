@@ -23,6 +23,8 @@ public class DisciplinaService {
 	private final Publisher publisher;
 	
 	private final DisciplinaRepository disciplinaRepository;
+	
+	private final ProfessorService professorService;
 
 	public DisciplinaDtoResposta criarDisciplina(DisciplinaDto disciplina) {
 		
@@ -79,7 +81,8 @@ public class DisciplinaService {
 		disciplianaModel.setDescricao(disciplinaDto.getDescricao());
 		disciplianaModel.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaModel.setSigla(disciplinaDto.getSigla());
-		
+		if(disciplinaDto.getProfessor()!= null)
+			disciplianaModel.setProfessor(professorService.criarModelProfessor(disciplinaDto.getProfessor()));
 		disciplianaModel.setIdDisciplina(disciplinaDto.getIdDisciplina());
 		return disciplianaModel;
 	}
@@ -91,7 +94,8 @@ public class DisciplinaService {
 		disciplianaDtoResposta.setDescricao(disciplinaDto.getDescricao());
 		disciplianaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaDtoResposta.setSigla(disciplinaDto.getSigla());
-		
+		if(disciplianaDtoResposta.getProfessor() != null)
+			disciplianaDtoResposta.setProfessor(professorService.criarProfessorDtoResposta(disciplinaDto.getProfessor()));
 
 		return disciplianaDtoResposta;
 	}

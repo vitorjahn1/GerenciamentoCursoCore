@@ -47,7 +47,8 @@ public class AlunoService {
 			alunoModel.setEmail(aluno.getEmail());
 			alunoModel.setFormaIngresso(aluno.getFormaIngresso());
 			alunoModel.setNome(aluno.getNome());
-			
+			alunoModel.setIdPessoa(aluno.getIdPessoa());
+			alunoModel.setMatricula(aluno.getMatricula());
 			alunoRepository.save(alunoModel);
 		}else {
 			throw new AlunoException("Aluno não encontrado");
@@ -67,7 +68,6 @@ public class AlunoService {
 		alunoModel.setEmail(aluno.getEmail());
 		alunoModel.setFormaIngresso(aluno.getFormaIngresso());
 		alunoModel.setNome(aluno.getNome());
-		
 		alunoModel.setIdPessoa(aluno.getIdPessoa());
 		alunoModel.setMatricula(aluno.getMatricula());
 		

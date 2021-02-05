@@ -22,7 +22,7 @@ import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoReposito
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.JVM)
 @Transactional
-public class AlunoControllerTest {
+ class AlunoControllerTest {
 
 	@Autowired
 	private AlunoRepository alunoRepository;

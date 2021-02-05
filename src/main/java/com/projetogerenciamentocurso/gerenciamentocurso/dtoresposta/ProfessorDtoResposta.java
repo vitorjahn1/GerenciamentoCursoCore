@@ -15,5 +15,4 @@ public class ProfessorDtoResposta extends PessoaDtoResposta implements Serializa
 	
 	private String titulacao;
 	
-	private DisciplinaDtoResposta disciplina;
 }

@@ -14,5 +14,4 @@ public class ProfessorDto extends PessoaDto implements Serializable {
 	
 	private String titulacao;
 	
-	private DisciplinaDto disciplina;
 }

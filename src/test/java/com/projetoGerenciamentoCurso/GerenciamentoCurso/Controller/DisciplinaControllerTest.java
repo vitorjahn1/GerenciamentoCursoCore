@@ -14,7 +14,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
+import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,6 +25,9 @@ class DisciplinaControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private ProfessorRepository professorRepository;
 	
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
@@ -75,12 +80,22 @@ class DisciplinaControllerTest {
 	
 	private void incluirObjetoNobanco() {
 		
+		Professor professor = new Professor();
+		professor.setCpf("1111");
+		professor.setEmail("teste@teste");
+		professor.setIdPessoa(1);
+		professor.setIdProfessor(1);
+		professor.setNome("teste");
+		professor.setTitulacao("mestre");
+		
+		professorRepository.saveAndFlush(professor);
+		
 		Disciplina disciplina = new Disciplina();
 		disciplina.setIdDisciplina(4);
 		disciplina.setDescricao("teste4");
 		disciplina.setCargaHoraria("10");
 		disciplina.setSigla("tes3");
-		
+		disciplina.setProfessor(professor);
 		disciplinaRepository.save(disciplina);
 		
 	}

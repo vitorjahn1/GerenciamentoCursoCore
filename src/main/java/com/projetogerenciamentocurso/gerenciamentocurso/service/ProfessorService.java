@@ -6,13 +6,10 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.projetogerenciamentocurso.gerenciamentocurso.GerenciamentoCursoApplication;
-import com.projetogerenciamentocurso.gerenciamentocurso.dto.DisciplinaDto;
 import com.projetogerenciamentocurso.gerenciamentocurso.dto.ProfessorDto;
-import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.DisciplinaDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.dtoresposta.ProfessorDtoResposta;
 import com.projetogerenciamentocurso.gerenciamentocurso.exceptions.ProfessorException;
 import com.projetogerenciamentocurso.gerenciamentocurso.mensageria.Publisher;
-import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
 
@@ -49,8 +46,6 @@ public class ProfessorService {
 			atualizaProfessor.setTitulacao(professor.getTitulacao());
 			atualizaProfessor.setIdProfessor(professor.getIdProfessor());
 			atualizaProfessor.setIdPessoa(professor.getIdPessoa());
-			if(professor.getDisciplina()!= null) 
-				atualizaProfessor.setDisciplina(criarDisciplinaModel(professor.getDisciplina()));
 			
 			professorRepository.save(atualizaProfessor);
 		}catch (EntityNotFoundException e) {
@@ -78,7 +73,7 @@ public class ProfessorService {
 		return criarProfessorDtoResposta(professor);
 	}
 
-	private Professor criarModelProfessor(ProfessorDto professorDto) {
+	public Professor criarModelProfessor(ProfessorDto professorDto) {
 
 		Professor criaProfessorModel = new Professor();
 
@@ -88,14 +83,12 @@ public class ProfessorService {
 		criaProfessorModel.setTitulacao(professorDto.getTitulacao());
 		criaProfessorModel.setIdProfessor(professorDto.getIdProfessor());
 		criaProfessorModel.setIdPessoa(professorDto.getIdPessoa());
-		if(professorDto.getDisciplina()!=null) 
-			criaProfessorModel.setIdPessoa(professorDto.getIdPessoa());
 		
 		
 		return criaProfessorModel;
 	}
 	
-	private ProfessorDtoResposta criarProfessorDtoResposta(ProfessorDto professorDto) {
+	public ProfessorDtoResposta criarProfessorDtoResposta(ProfessorDto professorDto) {
 		
 		ProfessorDtoResposta professorDtoResposta = new ProfessorDtoResposta();
 
@@ -105,34 +98,8 @@ public class ProfessorService {
 		professorDtoResposta.setTitulacao(professorDto.getTitulacao());
 		professorDtoResposta.setIdProfessor(professorDto.getIdProfessor());
 		professorDtoResposta.setIdPessoa(professorDto.getIdPessoa());
-		if(professorDto.getDisciplina()!=null) {
-			
-			professorDtoResposta.setDisciplina(criarDisciplinaDtoResposta(professorDto.getDisciplina()));
-		}
 		
 		return professorDtoResposta;
 	}
 	
-	private DisciplinaDtoResposta criarDisciplinaDtoResposta(DisciplinaDto disciplinaDto) {
-		
-		DisciplinaDtoResposta disciplinaDtoResposta = new DisciplinaDtoResposta();
-		disciplinaDtoResposta.setIdDisciplina(disciplinaDto.getIdDisciplina());
-		disciplinaDtoResposta.setDescricao(disciplinaDto.getDescricao());
-		disciplinaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
-		disciplinaDtoResposta.setSigla(disciplinaDto.getSigla());
-		
-		return disciplinaDtoResposta;
-	}
-	
-	private Disciplina criarDisciplinaModel(DisciplinaDto disciplinaDto) {
-		
-		Disciplina disciplinaDtoResposta = new Disciplina();
-		disciplinaDtoResposta.setIdDisciplina(disciplinaDto.getIdDisciplina());
-		disciplinaDtoResposta.setDescricao(disciplinaDto.getDescricao());
-		disciplinaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
-		disciplinaDtoResposta.setSigla(disciplinaDto.getSigla());
-		
-		return disciplinaDtoResposta;
-		
-	}
 }
