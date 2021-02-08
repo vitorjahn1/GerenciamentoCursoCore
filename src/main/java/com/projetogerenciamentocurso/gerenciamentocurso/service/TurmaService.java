@@ -112,14 +112,14 @@ public class TurmaService {
 	
 	private Set<AlunoDtoResposta> criarListaAlunoDtoResposta(Set<AlunoDto> alunoDtos){
 		
+		
+		
+		Set<AlunoDtoResposta> alunosResposta = new HashSet<>();
+		
 		if(alunoDtos!= null && !alunoDtos.isEmpty()) {
 			
-			Set<AlunoDtoResposta> alunosResposta = new HashSet<>();
-			
 			for(AlunoDto alunoDto : alunoDtos) {
-				
 				AlunoDtoResposta alunoResposta= new AlunoDtoResposta();
-				
 				alunoResposta.setCpf(alunoDto.getCpf());
 				alunoResposta.setEmail(alunoDto.getEmail());
 				alunoResposta.setFormaIngresso(alunoDto.getFormaIngresso());
@@ -130,17 +130,20 @@ public class TurmaService {
 				alunosResposta.add(alunoResposta);
 			}
 			return alunosResposta;
+		}else {
+			
+			return alunosResposta;
 		}
 		
-		return null;
+		
 		
 	}
 	
 	private Set<DisciplinaDtoResposta> criarListaDisciplinaDtoResposta(Set<DisciplinaDto> disciplinasDto){
 		
-		if(!disciplinasDto.isEmpty() && disciplinasDto != null) {
-			
-			Set<DisciplinaDtoResposta> disciplinasRespostas = new HashSet<>();
+		Set<DisciplinaDtoResposta> disciplinasRespostas = new HashSet<>();
+		
+		if(!disciplinasDto.isEmpty()) {
 			
 			for(DisciplinaDto disciplinaDto : disciplinasDto) {
 				DisciplinaDtoResposta disciplinaDtoResposta = new DisciplinaDtoResposta();
@@ -154,18 +157,21 @@ public class TurmaService {
 			}
 			
 			return disciplinasRespostas;
+		}else {
+			
+			return disciplinasRespostas;
 		}
 		
 		
-		return null;
+		
 		
 	}
 	
 	private Set<Aluno> criarListaAlunoModel(Set<AlunoDto> alunoDtos){
 		
+		Set<Aluno> alunosResposta = new HashSet<>();
+		
 		if(alunoDtos!= null && !alunoDtos.isEmpty()) {
-			
-			Set<Aluno> alunosResposta = new HashSet<>();
 			
 			for(AlunoDto alunoDto : alunoDtos) {
 				
@@ -181,17 +187,18 @@ public class TurmaService {
 				alunosResposta.add(aluno);
 			}
 			return alunosResposta;
+		}else {
+			
+			return alunosResposta;
 		}
-		
-		return null;
 		
 	}
 	
 	private Set<Disciplina> criarListaDisciplinaModel(Set<DisciplinaDto> disciplinasDto){
 		
-		if(!disciplinasDto.isEmpty() && disciplinasDto != null) {
-			
-			Set<Disciplina> disciplinasRespostas = new HashSet<>();
+		Set<Disciplina> disciplinasRespostas = new HashSet<>();
+		
+		if(!disciplinasDto.isEmpty()) {
 			
 			for(DisciplinaDto disciplinaDto : disciplinasDto) {
 				Disciplina disciplina = new Disciplina();
@@ -205,10 +212,9 @@ public class TurmaService {
 			}
 			
 			return disciplinasRespostas;
+		}else {
+			
+			return disciplinasRespostas;
 		}
-		
-		
-		return null;
-		
 	}
 }

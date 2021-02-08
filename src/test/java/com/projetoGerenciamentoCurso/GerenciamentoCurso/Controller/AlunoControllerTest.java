@@ -34,7 +34,6 @@ import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoReposito
 	@Test
 	 void criarAlunoRetornaSucesso() throws Exception {
 		
-		
 		URI uri = new URI("/aluno");
 		
 		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"3333\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\"}";
@@ -58,7 +57,6 @@ import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoReposito
 		
 		String json = "{\"idPessoa\":3,\"nome\":\"teste3\",\"cpf\":\"4444\",\"email\":\"teste3@teste3\",\"matricula\":3,\"formaIngresso\":\"vestibular3\"}";
 		
-		
 		mockMvc
 		.perform(MockMvcRequestBuilders
 				.put(uri)
@@ -67,7 +65,6 @@ import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoReposito
 		.andExpect(MockMvcResultMatchers
 				.status()
 				.is(200));
-		
 	}
 	
 	@Test

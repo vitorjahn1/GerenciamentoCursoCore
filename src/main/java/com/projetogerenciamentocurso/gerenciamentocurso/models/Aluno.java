@@ -1,7 +1,6 @@
 package com.projetogerenciamentocurso.gerenciamentocurso.models;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
@@ -23,8 +22,7 @@ public class Aluno extends Pessoa implements Serializable{
 	@NotNull
 	private String formaIngresso;
 	
-	public Aluno(Integer idPessoa, String nome, String cpf, String email, String formaIngresso,
-			Set<Turma> turma) {
+	public Aluno(Integer idPessoa, String nome, String cpf, String email, String formaIngresso) {
 		super(idPessoa, nome, cpf, email);
 		this.formaIngresso = formaIngresso;
 	}
