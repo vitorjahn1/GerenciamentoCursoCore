@@ -19,6 +19,7 @@ import com.projetogerenciamentocurso.gerenciamentocurso.models.Aluno;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Disciplina;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Professor;
 import com.projetogerenciamentocurso.gerenciamentocurso.models.Turma;
+import com.projetogerenciamentocurso.gerenciamentocurso.repository.AlunoRepository;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.DisciplinaRepository;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.ProfessorRepository;
 import com.projetogerenciamentocurso.gerenciamentocurso.repository.TurmaRepository;
@@ -39,6 +40,9 @@ class TurmaControllerTest {
 	
 	@Autowired
 	private TurmaRepository turmaRepository;
+	
+	@Autowired
+	private AlunoRepository alunorepository;
 
 	@Test
 	void criarTurmaRetornaSucesso() throws Exception {
@@ -116,6 +120,8 @@ class TurmaControllerTest {
 		aluno.setNome("teste");
 		aluno.setMatricula(1);
 		aluno.setFormaIngresso("vestibular");
+		
+		alunorepository.saveAndFlush(aluno);
 		
 		Set<Aluno> alunos = new HashSet<>();
 		alunos.add(aluno);
