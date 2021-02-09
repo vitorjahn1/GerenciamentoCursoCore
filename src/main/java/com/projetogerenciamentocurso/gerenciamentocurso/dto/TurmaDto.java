@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class TurmaDto implements Serializable{
 	
-	private static final long serialVersionUID = -3707587868489230939L;
+	private static final long serialVersionUID = 1163091750281931L;
 
 	private Integer idTurma;
 	

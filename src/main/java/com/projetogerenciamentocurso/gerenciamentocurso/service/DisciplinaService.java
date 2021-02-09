@@ -33,7 +33,7 @@ public class DisciplinaService {
 		disciplinaRepository.save(disciplinaModel);
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
+				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
 		
 		return criarDisciplinaDtoResposta(disciplina);
 	}
@@ -46,14 +46,15 @@ public class DisciplinaService {
 			disciplinaAtualiza.setDescricao(disciplina.getDescricao());
 			disciplinaAtualiza.setCargaHoraria(disciplina.getCargaHoraria());
 			disciplinaAtualiza.setSigla(disciplina.getSigla());
-			
+			if(disciplina.getProfessor()!= null)
+				disciplinaAtualiza.setProfessor(professorService.criarModelProfessor(disciplina.getProfessor()));
 			disciplinaRepository.save(disciplinaAtualiza);
 		}catch (EntityNotFoundException e) {
 			throw new DisciplinaException("Disciplina não encontrada");
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_CRIAR, disciplina);
+				GerenciamentoCursoApplication.ROUTING_DISCIPLINA_ATUALIZAR, disciplina);
 
 		return criarDisciplinaDtoResposta(disciplina);
 	}
@@ -90,11 +91,11 @@ public class DisciplinaService {
 	private DisciplinaDtoResposta criarDisciplinaDtoResposta(DisciplinaDto disciplinaDto) {
 		
 		DisciplinaDtoResposta disciplianaDtoResposta = new DisciplinaDtoResposta();
-
+		disciplianaDtoResposta.setIdDisciplina(disciplinaDto.getIdDisciplina());
 		disciplianaDtoResposta.setDescricao(disciplinaDto.getDescricao());
 		disciplianaDtoResposta.setCargaHoraria(disciplinaDto.getCargaHoraria());
 		disciplianaDtoResposta.setSigla(disciplinaDto.getSigla());
-		if(disciplianaDtoResposta.getProfessor() != null)
+		if(disciplinaDto.getProfessor() != null)
 			disciplianaDtoResposta.setProfessor(professorService.criarProfessorDtoResposta(disciplinaDto.getProfessor()));
 
 		return disciplianaDtoResposta;

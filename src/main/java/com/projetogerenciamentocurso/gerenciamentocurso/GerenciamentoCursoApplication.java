@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -175,5 +177,14 @@ public class GerenciamentoCursoApplication {
 	public Binding declareBindingAtualizarDisciplina() {
 		return BindingBuilder.bind(appQueueProfessorCriar()).to(appExchange()).with(ROUTING_DISCIPLINA_ATUALIZAR);
 	}
-
+	
+	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
+	    SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+	    
+	    factory.setMessageConverter(new Jackson2JsonMessageConverter());
+	    
+	    return factory;
+	}
+	
+	
 }
