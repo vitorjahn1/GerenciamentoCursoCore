@@ -4,6 +4,8 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +24,7 @@ public class GerenciamentoCursoApplication {
 
 	public static final String QUEUE_TURMA_ATUALIZAR = "turmaAtualizar";
 	public static final String QUEUE_TURMA_CRIAR = "turmaCriar";
-	public static final String QUEUE_TURMA_DELETAR = "turmaCriar";
+	public static final String QUEUE_TURMA_DELETAR = "turmaDeletar";
 	
 	public static final String QUEUE_PROFESSOR_ATUALIZAR = "professorAtualizar";
 	public static final String QUEUE_PROFESSOR_CRIAR = "professorCriar";
@@ -134,11 +136,6 @@ public class GerenciamentoCursoApplication {
 	public Binding declareBindingAtulizarTurma() {
 		return BindingBuilder.bind(appQueueTurmaAtualizar()).to(appExchange()).with(ROUTING_TURMA_ATUALIZAR);
 	}
-
-	@Bean
-	public Binding declareBindingCriarTurma() {
-		return BindingBuilder.bind(appQueueProfessorCriar()).to(appExchange()).with(QUEUE_PROFESSOR_CRIAR);
-	}
 	
 	@Bean
 	public Binding declareBindingProfessorDeletar() {
@@ -160,20 +157,33 @@ public class GerenciamentoCursoApplication {
 		return BindingBuilder.bind(appQueueTurmaDeletar()).to(appExchange()).with(ROUTING_TURMA_DELETAR);
 	}
 	
+	@Bean
+	public Binding declareBindingCriarTurma() {
+		return BindingBuilder.bind(appQueueTurmaCriar()).to(appExchange()).with(ROUTING_TURMA_CRIAR);
+	}
 
 	@Bean
 	public Binding declareBindingCriarDisciplina() {
-		return BindingBuilder.bind(appQueueProfessorCriar()).to(appExchange()).with(ROUTING_DISCIPLINA_CRIAR);
+		return BindingBuilder.bind(appQueueDisciplinaCriar()).to(appExchange()).with(ROUTING_DISCIPLINA_CRIAR);
 	}
 	
 	@Bean
 	public Binding declareBindingDeletarDisciplina() {
-		return BindingBuilder.bind(appQueueProfessorDeletar()).to(appExchange()).with(ROUTING_DISCIPLINA_DELETAR);
+		return BindingBuilder.bind(appQueueDisciplinaDeletar()).to(appExchange()).with(ROUTING_DISCIPLINA_DELETAR);
 	}
 	
 	@Bean
 	public Binding declareBindingAtualizarDisciplina() {
-		return BindingBuilder.bind(appQueueProfessorCriar()).to(appExchange()).with(ROUTING_DISCIPLINA_ATUALIZAR);
+		return BindingBuilder.bind(appQueueDisciplinaAtualizar()).to(appExchange()).with(ROUTING_DISCIPLINA_ATUALIZAR);
 	}
-
+	
+	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
+	    SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+	    
+	    factory.setMessageConverter(new Jackson2JsonMessageConverter());
+	    
+	    return factory;
+	}
+	
+	
 }

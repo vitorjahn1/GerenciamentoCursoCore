@@ -31,7 +31,7 @@ public class ProfessorService {
 		professorRepository.save(professorModel);
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-				GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
+				GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
 		
 		return criarProfessorDtoResposta(professor);
 	}
@@ -53,7 +53,7 @@ public class ProfessorService {
 		}
 		
 		publisher.send(GerenciamentoCursoApplication.EXCHANGE_NAME,
-					GerenciamentoCursoApplication.ROUTING_PROFESSOR_CRIAR, professor);
+					GerenciamentoCursoApplication.ROUTING_PROFESSOR_ATUALIZAR, professor);
 	
 		return criarProfessorDtoResposta(professor);
 	}
